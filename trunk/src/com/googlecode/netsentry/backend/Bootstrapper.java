@@ -174,6 +174,9 @@ public class Bootstrapper extends BroadcastReceiver {
 
                                 cursor.moveToNext();
                             }
+                            
+                            // close cursor
+                            cursor.close();
                         }
                     }
                 }
