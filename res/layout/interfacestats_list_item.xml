@@ -20,15 +20,16 @@
 		android:layout_marginRight="10px"
 		android:layout_toRightOf="@id/interfaceList_Item_image_interfaceType" />
 
-	<TextView android:id="@+id/interfaceList_Item_lastReset"
+	<TextView android:id="@+id/interfaceList_Item_since"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:layout_below="@id/interfaceList_Item_counter"
-		android:layout_marginRight="10px" android:text="@string/list_item_last_reset"
+		android:layout_marginRight="10px" android:text="@string/list_item_since" 
+		android:layout_below="@id/interfaceList_Item_counter" 
 		android:layout_toRightOf="@id/interfaceList_Item_image_interfaceType" />
 
 	<TextView android:id="@+id/interfaceList_Item_lastReset_value"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:layout_marginRight="10px" android:layout_below="@id/interfaceList_Item_counter"
-		android:layout_toRightOf="@id/interfaceList_Item_lastReset" />
+		android:layout_marginRight="10px"
+		android:layout_below="@id/interfaceList_Item_counter"
+		android:layout_toRightOf="@id/interfaceList_Item_since" />
 
 </RelativeLayout>
