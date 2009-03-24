@@ -1,13 +1,16 @@
-#About NetSentry
+The two main screens:
 
-= Introduction =
+*The Interface List:*
+This screen lists all active network interfaces.
 
-Add your content here.
+*The Interface Details Screen:*
+Selecting an entry from the list gives you detailed information about how much data has been transferred over that particular interface.
+		
 
+*Miscellaneous information*
 
-= Details =
+Updates:
+When you open _NetSentry_ all data counters will be updated. Automatic updates are scheduled on a regular basis. You can set the update interval using the preferences. 
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+Notifications:
+Notifications will pop up only during automatic updates. All notifications will be cleared as soon as you open _NetSentry_.
