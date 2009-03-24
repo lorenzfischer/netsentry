@@ -30,9 +30,8 @@ import android.widget.ImageButton;
 public class NumberPickerButton extends ImageButton {
 
     private NumberPicker mNumberPicker;
-    
-    public NumberPickerButton(Context context, AttributeSet attrs,
-            int defStyle) {
+
+    public NumberPickerButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -43,32 +42,31 @@ public class NumberPickerButton extends ImageButton {
     public NumberPickerButton(Context context) {
         super(context);
     }
-    
+
     public void setNumberPicker(NumberPicker picker) {
         mNumberPicker = picker;
     }
-    
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         cancelLongpressIfRequired(event);
         return super.onTouchEvent(event);
     }
-    
+
     @Override
     public boolean onTrackballEvent(MotionEvent event) {
         cancelLongpressIfRequired(event);
         return super.onTrackballEvent(event);
     }
-    
+
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_DPAD_CENTER)
-                || (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        if ((keyCode == KeyEvent.KEYCODE_DPAD_CENTER) || (keyCode == KeyEvent.KEYCODE_ENTER)) {
             cancelLongpress();
         }
         return super.onKeyUp(keyCode, event);
     }
-    
+
     private void cancelLongpressIfRequired(MotionEvent event) {
         if ((event.getAction() == MotionEvent.ACTION_CANCEL)
                 || (event.getAction() == MotionEvent.ACTION_UP)) {
