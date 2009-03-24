@@ -16,16 +16,16 @@ import com.googlecode.netsentry.R;
  */
 public class ApplicationPreferences extends PreferenceActivity {
 
-	/** This activity can be started by an intent with this action. */
-	public final static String ACTION_EDIT_PREFERENCES = "com.googlecode.netsentry.ACTION_EDIT_PREFERENCES";
+    /** This activity can be started by an intent with this action. */
+    public final static String ACTION_EDIT_PREFERENCES = "com.googlecode.netsentry.ACTION_EDIT_PREFERENCES";
 
-	/** {@inheritDoc} */
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    /** {@inheritDoc} */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		// Load the XML preferences file
-		addPreferencesFromResource(R.xml.preferences);
-	}
+        // Load the XML preferences file
+        addPreferencesFromResource(R.xml.preferences);
+    }
 
 }
