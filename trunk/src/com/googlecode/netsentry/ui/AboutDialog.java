@@ -7,7 +7,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -21,8 +20,8 @@ import com.googlecode.netsentry.R;
  */
 public class AboutDialog extends AlertDialog {
 
-    /** TAG for logging. */
-    private static final String TAG = "ns.AboutDialog";
+    // /** TAG for logging. */
+    // private static final String TAG = "ns.AboutDialog";
 
     /**
      * @param context
@@ -59,7 +58,7 @@ public class AboutDialog extends AlertDialog {
                     .getPackageInfo(context.getPackageName(), 0);
             version = pi.versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            Log.e(TAG, "Could not retrieve application version.", e);
+            // Log.e(TAG, "Could not retrieve application version.", e);
         }
         return version;
     }

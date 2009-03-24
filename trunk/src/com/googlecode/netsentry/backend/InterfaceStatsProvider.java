@@ -17,7 +17,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.googlecode.netsentry.R;
 
@@ -35,8 +34,8 @@ import com.googlecode.netsentry.R;
  */
 public class InterfaceStatsProvider extends ContentProvider {
 
-    /** The tag information for the logging facility. */
-    private static final String TAG = "ns.InterfaceStatsProvider";
+    // /** The tag information for the logging facility. */
+    // private static final String TAG = "ns.InterfaceStatsProvider";
 
     /** The authority is used so we can put together the content provider uri. */
     public static final String AUTHORITY = "com.googlecode.netsentry";
@@ -338,7 +337,8 @@ public class InterfaceStatsProvider extends ContentProvider {
         public void onCreate(SQLiteDatabase db) {
             ContentValues valuesLoopback = new ContentValues();
 
-            Log.v(TAG, "Creating database for interface statistics.");
+            // Log.v(TAG, "Creating database for interface statistics.");
+
             // TODO what happens when the database creation failes
             db.execSQL("CREATE TABLE " + INTERFACE_STATS_TABLE_NAME + " ("
                     + InterfaceStatsColumns._ID + " INTEGER PRIMARY KEY,"
@@ -368,8 +368,9 @@ public class InterfaceStatsProvider extends ContentProvider {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion
-                    + ", which will destroy all old data");
+            // Log.w(TAG, "Upgrading database from version " + oldVersion +
+            // " to " + newVersion
+            // + ", which will destroy all old data");
             db.execSQL("DROP TABLE IF EXISTS " + InterfaceStatsProvider.INTERFACE_STATS_TABLE_NAME);
             onCreate(db);
         }

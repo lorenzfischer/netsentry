@@ -22,7 +22,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.util.Log;
 
 import com.googlecode.netsentry.R;
 
@@ -35,14 +34,14 @@ import com.googlecode.netsentry.R;
  */
 public class Updater extends BroadcastReceiver {
 
+//  /** TAG for logging. */
+//  private static final String TAG = "ns.Updater";
+    
     /**
      * Whenever some component wants to issue an update of the counters it can
      * broadcast an intent with this name and this receiver will listen for it.
      */
     public static final String ACTION_UPDATE_COUNTERS = "com.googlecode.netsentry.ACTION_UPDATE_COUNTERS";
-
-    /** TAG for logging. */
-    private static final String TAG = "ns.Updater";
 
     /**
      * This is a virtual file of the OS containing counter values for the
@@ -125,7 +124,7 @@ public class Updater extends BroadcastReceiver {
         final int usageThresholdMedium = Configuration.getUsageThresholdMedium(context);
         final int usageThresholdHigh = Configuration.getUsageThresholdHigh(context);
 
-        Log.d(TAG, "Updating InterfaceStatsProvider..");
+//        Log.d(TAG, "Updating InterfaceStatsProvider..");
 
         if (Updater.updateInterfaceStats(context)) {
             /*
@@ -326,9 +325,9 @@ public class Updater extends BroadcastReceiver {
 
                         // there have been some changes, so update the data
                         // provider
-                        Log.v(TAG, "Values for device " + stats.getInterfaceName()
-                                + " changed! bytes received delta: " + bytesReceivedDelta
-                                + " bytes sent delta:" + bytesSentDelta);
+//                        Log.v(TAG, "Values for device " + stats.getInterfaceName()
+//                                + " changed! bytes received delta: " + bytesReceivedDelta
+//                                + " bytes sent delta:" + bytesSentDelta);
 
                         values.put(InterfaceStatsColumns.BYTES_RECEIVED, Long
                                 .valueOf(bytesReceivedDb));
@@ -394,7 +393,7 @@ public class Updater extends BroadcastReceiver {
 
         try {
 
-            fstream = new FileReader("/proc/self/net/dev");
+            fstream = new FileReader(INTERFACE_FILE);
 
             if (fstream != null) {
                 try {
@@ -408,11 +407,11 @@ public class Updater extends BroadcastReceiver {
                     in.close();
                     fstream.close();
                 } catch (IOException e) {
-                    Log.e(TAG, "Could not read from file '" + INTERFACE_FILE + "'.", e);
+//                    Log.e(TAG, "Could not read from file '" + INTERFACE_FILE + "'.", e);
                 }
             }
         } catch (FileNotFoundException e) {
-            Log.e(TAG, "Could not open file '" + INTERFACE_FILE + "' for reading.", e);
+//            Log.e(TAG, "Could not open file '" + INTERFACE_FILE + "' for reading.", e);
         }
 
         /*
@@ -433,8 +432,9 @@ public class Updater extends BroadcastReceiver {
                     Updater.sInterfacesStatsMap.put(deviceName, stats);
                 }
 
-                Log.v(TAG, "Device=" + deviceName + " bytes received:" + bytesReceived
-                        + " bytes sent:" + bytesSent);
+                // Log.v(TAG, "Device=" + deviceName + " bytes received:" +
+                // bytesReceived
+                // + " bytes sent:" + bytesSent);
 
                 // update our data record
                 stats.setBytesReceived(bytesReceived);
