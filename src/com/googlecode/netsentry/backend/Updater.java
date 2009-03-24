@@ -183,6 +183,9 @@ public class Updater extends BroadcastReceiver {
 
                     cursor.moveToNext();
                 }
+                
+                // close cursor
+                cursor.close();
 
                 if (notificationCreated > 0) {
                     NotificationManager notificationManager;
