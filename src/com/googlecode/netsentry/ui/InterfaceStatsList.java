@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,8 +40,8 @@ import com.googlecode.netsentry.util.StringUtilities;
  */
 public class InterfaceStatsList extends ListActivity {
 
-    /** TAG for logging. */
-    private static final String TAG = "ns.InterfaceList";
+    // /** TAG for logging. */
+    // private static final String TAG = "ns.InterfaceList";
 
     /**
      * Standard projection for the interesting columns of a normal interface
@@ -184,7 +183,7 @@ public class InterfaceStatsList extends ListActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        
+
         // close cursor
         mCursor.close();
     }
@@ -198,7 +197,7 @@ public class InterfaceStatsList extends ListActivity {
         try {
             info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         } catch (ClassCastException e) {
-            Log.e(TAG, "Bad menuInfo", e);
+            // Log.e(TAG, "Bad menuInfo", e);
             return;
         }
 
@@ -226,7 +225,7 @@ public class InterfaceStatsList extends ListActivity {
         try {
             info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         } catch (ClassCastException e) {
-            Log.e(TAG, "Bad menuInfo", e);
+            // Log.e(TAG, "Bad menuInfo", e);
             return false;
         }
 

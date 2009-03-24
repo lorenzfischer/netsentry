@@ -11,7 +11,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 /**
  * This broadcast receiver takes action only if it receives is of type
@@ -29,8 +28,8 @@ import android.util.Log;
  */
 public class CronScheduler extends BroadcastReceiver {
 
-    /** The tag information for the logging facility. */
-    private static final String TAG = "ns.CronScheduler";
+    // /** The tag information for the logging facility. */
+    // private static final String TAG = "ns.CronScheduler";
 
     /**
      * When an intent is received by this receiver, its extra information will
@@ -65,8 +64,9 @@ public class CronScheduler extends BroadcastReceiver {
                 String cronExpression = intent
                         .getStringExtra(CronScheduler.EXTRA_FIELD_CRON_EXPRESSION);
 
-                Log.d(TAG, "Executing scheduled job " + targetIntent.getAction() + " with data "
-                        + targetIntent.getDataString());
+                // Log.d(TAG, "Executing scheduled job " +
+                // targetIntent.getAction() + " with data "
+                // + targetIntent.getDataString());
 
                 // broadcast the wrapped intent
                 context.sendBroadcast(targetIntent);
@@ -137,17 +137,21 @@ public class CronScheduler extends BroadcastReceiver {
     public static void scheduleJob(Context context, Intent targetIntent, String cronExpression) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        Log.d(TAG, "Scheduling job " + targetIntent.getAction() + " with data "
-                + targetIntent.getDataString() + " for execution at: " + cronExpression);
+        // Log.d(TAG, "Scheduling job " + targetIntent.getAction() +
+        // " with data "
+        // + targetIntent.getDataString() + " for execution at: " +
+        // cronExpression);
 
         try {
             alarmManager.set(AlarmManager.RTC, CronScheduler.getNextExecutionTime(cronExpression),
                     PendingIntent.getBroadcast(context, 0, CronScheduler.createCronScheduledIntent(
                             targetIntent, cronExpression), PendingIntent.FLAG_CANCEL_CURRENT));
         } catch (ParseException e) {
-            Log.e(TAG, "Could not parse cron expression '" + cronExpression + "'. The intent "
-                    + targetIntent.getAction() + " will be not be scheduled for future execution.",
-                    e);
+            // Log.e(TAG, "Could not parse cron expression '" + cronExpression +
+            // "'. The intent "
+            // + targetIntent.getAction() +
+            // " will be not be scheduled for future execution.",
+            // e);
         }
     }
 
@@ -163,8 +167,9 @@ public class CronScheduler extends BroadcastReceiver {
     public static void stopScheduledJob(Context context, Intent targetIntent) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        Log.d(TAG, "Stopping scheduled job " + targetIntent.getAction() + " with data "
-                + targetIntent.getDataString());
+        // Log.d(TAG, "Stopping scheduled job " + targetIntent.getAction() +
+        // " with data "
+        // + targetIntent.getDataString());
 
         alarmManager.cancel(PendingIntent.getBroadcast(context, 0, CronScheduler
                 .createCronScheduledIntent(targetIntent, null), PendingIntent.FLAG_CANCEL_CURRENT));

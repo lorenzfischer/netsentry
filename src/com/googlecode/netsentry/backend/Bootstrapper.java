@@ -14,7 +14,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.googlecode.netsentry.backend.scheduler.CronScheduler;
 
@@ -32,8 +31,8 @@ import com.googlecode.netsentry.backend.scheduler.CronScheduler;
  */
 public class Bootstrapper extends BroadcastReceiver {
 
-    /** TAG for logging. */
-    private static final String TAG = "ns.Bootstrapper";
+    // /** TAG for logging. */
+    // private static final String TAG = "ns.Bootstrapper";
 
     /** Standard projection for all the columns of an interface stats record. */
     private static final String[] PROJECTION = new String[] { InterfaceStatsColumns._ID, // 0
@@ -73,7 +72,7 @@ public class Bootstrapper extends BroadcastReceiver {
             ContentResolver resolver = context.getContentResolver();
             Cursor cursor;
 
-            Log.d(TAG, "Initializing NetSentry..");
+            // Log.d(TAG, "Initializing NetSentry..");
 
             // Set an alarm to invoke the updater on a regular basis
             scheduleAutomaticUpdates(context);
@@ -117,7 +116,7 @@ public class Bootstrapper extends BroadcastReceiver {
     private static void scheduleAutomaticUpdates(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        Log.d(TAG, "Starting automatic updates schedule..");
+        // Log.d(TAG, "Starting automatic updates schedule..");
         alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), Configuration
                 .getUpdateInterval(context), PendingIntent.getBroadcast(context, 0, new Intent(
                 Updater.ACTION_UPDATE_COUNTERS), PendingIntent.FLAG_CANCEL_CURRENT));
@@ -174,7 +173,7 @@ public class Bootstrapper extends BroadcastReceiver {
 
                                 cursor.moveToNext();
                             }
-                            
+
                             // close cursor
                             cursor.close();
                         }
