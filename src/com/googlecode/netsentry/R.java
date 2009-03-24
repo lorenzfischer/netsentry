@@ -74,8 +74,8 @@ public final class R {
         public static final int interfaceList_Item_counter=0x7f080014;
         public static final int interfaceList_Item_image_interfaceType=0x7f080012;
         public static final int interfaceList_Item_interfaceAlias=0x7f080013;
-        public static final int interfaceList_Item_lastReset=0x7f080015;
         public static final int interfaceList_Item_lastReset_value=0x7f080016;
+        public static final int interfaceList_Item_since=0x7f080015;
         public static final int number_picker_button_decrement=0x7f080019;
         public static final int number_picker_button_increment=0x7f080017;
         public static final int number_picker_input=0x7f080018;
@@ -122,7 +122,7 @@ public final class R {
         public static final int infinity_sign=0x7f070007;
         /**  interface list 
          */
-        public static final int list_item_last_reset=0x7f070010;
+        public static final int list_item_since=0x7f070010;
         public static final int menu_item_about=0x7f070003;
         public static final int menu_item_edit=0x7f070002;
         public static final int menu_item_preferences=0x7f070004;
