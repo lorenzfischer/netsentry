@@ -3,6 +3,7 @@ package com.googlecode.netsentry.ui;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.NotificationManager;
@@ -57,9 +58,6 @@ public class InterfaceStatsList extends ListActivity {
             InterfaceStatsColumns.LAST_RESET // 7
     };
 
-    /** The index of the interface name column */
-    private static final int COLUMN_INDEX_INTERFACE_NAME = 1;
-
     /** The id for the "reset counters" context menu item. */
     private static final int CONTEXT_MENU_ITEM_RESET_COUNTERS = Menu.FIRST;
 
@@ -74,6 +72,12 @@ public class InterfaceStatsList extends ListActivity {
 
     /** Constant for the set transmission limit dialog. */
     private static final int DIALOG_ABOUT = 1;
+
+    /**
+     * The cursor through which the database will be accessed, this cursor will
+     * be closed in the {@link #onDestroy()} method.
+     */
+    private Cursor mCursor;
 
     /**
      * Called when the activity is first created.
@@ -100,13 +104,13 @@ public class InterfaceStatsList extends ListActivity {
          * Perform a managed query. The Activity will handle closing and
          * requerying the cursor when needed.
          */
-        Cursor cursor = managedQuery(getIntent().getData(), PROJECTION,
+        mCursor = managedQuery(getIntent().getData(), PROJECTION,
                 InterfaceStatsColumns.SHOW_IN_LIST + " = 1", null,
                 InterfaceStatsColumns.DEFAULT_SORT_ORDER);
 
         // Used to map the rows in the cursor to list views.
         ResourceCursorAdapter adapter = new ResourceCursorAdapter(this,
-                R.layout.interfacestats_list_item, cursor) {
+                R.layout.interfacestats_list_item, mCursor) {
 
             private DateFormat mFormat = new SimpleDateFormat();
 
@@ -176,6 +180,15 @@ public class InterfaceStatsList extends ListActivity {
         notificationManager.cancel(Configuration.NOTIFICATION_ID_USAGE);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        
+        // close cursor
+        mCursor.close();
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -197,7 +210,7 @@ public class InterfaceStatsList extends ListActivity {
         }
 
         // Setup the menu header
-        menu.setHeaderTitle(cursor.getString(InterfaceStatsList.COLUMN_INDEX_INTERFACE_NAME));
+        menu.setHeaderTitle(cursor.getString(2));
 
         menu.add(0, InterfaceStatsList.CONTEXT_MENU_ITEM_EDIT, 0, R.string.menu_item_edit);
         menu.add(0, InterfaceStatsList.CONTEXT_MENU_ITEM_RESET_COUNTERS, 1,
