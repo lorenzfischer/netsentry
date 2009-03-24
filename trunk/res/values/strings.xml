@@ -24,7 +24,7 @@
 	<string name="notification_usage_level_high">An interface has reached high usage</string>
 
     <!-- interface list -->
-    <string name="list_item_last_reset">Last Reset:</string>
+    <string name="list_item_since">since</string>
 
 	<!-- item editor -->
 	<string name="editor_title">Interface Details</string>
@@ -55,10 +55,10 @@
 	<string name="preferences_update_interval_summary">A lower value means higher accuracy, 
 	but also faster battery	drainage.</string>
 	<string name="preferences_usage_medium_title">Medium Usage Threshold</string>
-	<string name="preferences_usage_medium_summary">Set threshold for medium usage 
+	<string name="preferences_usage_medium_summary">Set the threshold for medium usage 
 	notifications.</string>
 	<string name="preferences_usage_high_title">High Usage Threshold</string>
-    <string name="preferences_usage_high_summary">Set threshold for high usage 
+    <string name="preferences_usage_high_summary">Set the threshold for high usage 
     notifications.</string>
 
 	<!-- about dialog -->
