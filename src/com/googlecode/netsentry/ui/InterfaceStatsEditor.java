@@ -23,7 +23,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import com.googlecode.netsentry.R;
 import com.googlecode.netsentry.backend.Configuration;
 import com.googlecode.netsentry.backend.InterfaceStatsColumns;
-import com.googlecode.netsentry.backend.InterfaceStatsProvider;
 import com.googlecode.netsentry.backend.Resetter;
 import com.googlecode.netsentry.backend.scheduler.CronScheduler;
 import com.googlecode.netsentry.util.StringUtilities;
@@ -76,15 +75,10 @@ public class InterfaceStatsEditor extends Activity {
     private Button mResetCountersButton;
     private Spinner mAutoReset;
 
-    /** The data record we opened the editor for. */
-    private Cursor mEntry;
-
     /** This observer will update the gui as necessary. */
     private ContentObserver mContentObserver = new ContentObserver(new Handler()) {
         @Override
         public void onChange(boolean selfChange) {
-            mEntry.requery();
-            mEntry.moveToFirst();
             updateGui();
         }
     };
@@ -121,9 +115,6 @@ public class InterfaceStatsEditor extends Activity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mAutoReset.setAdapter(adapter);
 
-        // get entry and move cursor to the first and only row
-        mEntry = getContentResolver().query(getIntent().getData(), PROJECTION, null, null, null);
-        mEntry.moveToFirst();
         // make sure we get notified about changes to our record
         getContentResolver()
                 .registerContentObserver(getIntent().getData(), false, mContentObserver);
@@ -155,11 +146,7 @@ public class InterfaceStatsEditor extends Activity {
                 values = new ContentValues();
                 values.put(InterfaceStatsColumns.RESET_CRON_EXPRESSION, selectedCronExpression);
                 // store values into the table
-                getContentResolver().update(
-                        InterfaceStatsProvider.CONTENT_URI,
-                        values,
-                        InterfaceStatsColumns._ID + "="
-                                + InterfaceStatsEditor.this.mEntry.getLong(0), null);
+                getContentResolver().update(getIntent().getData(), values, null, null);
 
                 resetterIntent = Resetter.createResetterIntent(getIntent().getData());
                 if (selectedCronExpression != null) {
@@ -193,16 +180,20 @@ public class InterfaceStatsEditor extends Activity {
      * the gui components.
      */
     private void updateGui() {
-
         long bytesReceived, bytesSent, bytesTotal, bytesLimit;
+        Cursor entry = getContentResolver().query(getIntent().getData(), PROJECTION, null, null,
+                null);
 
-        bytesReceived = mEntry.getLong(3);
-        bytesSent = mEntry.getLong(4);
+        // get entry and move cursor to the first and only row
+        entry.moveToFirst();
+
+        bytesReceived = entry.getLong(3);
+        bytesSent = entry.getLong(4);
         bytesTotal = bytesReceived + bytesSent;
-        bytesLimit = mEntry.getLong(5);
+        bytesLimit = entry.getLong(5);
 
-        mInterfaceName.setText(mEntry.getString(1));
-        mInterfaceAlias.setText(mEntry.getString(2));
+        mInterfaceName.setText(entry.getString(1));
+        mInterfaceAlias.setText(entry.getString(2));
         mDataReceived.setText(StringUtilities.formatDataNumber(bytesReceived));
         mDataSent.setText(StringUtilities.formatDataNumber(bytesSent));
         mDataTotal.setText(StringUtilities.formatDataNumber(bytesTotal));
@@ -213,7 +204,7 @@ public class InterfaceStatsEditor extends Activity {
             mTransmissionLimit.setText(R.string.infinity_sign);
         }
 
-        mInterfaceTypeIcon.setImageResource(InterfaceIcon.getResourceIdForInterface(mEntry
+        mInterfaceTypeIcon.setImageResource(InterfaceIcon.getResourceIdForInterface(entry
                 .getString(1)));
 
         /*
@@ -222,13 +213,16 @@ public class InterfaceStatsEditor extends Activity {
          */
         int cronExpressionCount = mCronExpressions.length;
         for (int i = 0; i < cronExpressionCount; i++) {
-            if ((mCronExpressions[i].getCronExpression() == null && mEntry.getString(6) == null)
+            if ((mCronExpressions[i].getCronExpression() == null && entry.getString(6) == null)
                     || (mCronExpressions[i].getCronExpression() != null && mCronExpressions[i]
-                            .getCronExpression().equals(mEntry.getString(6)))) {
+                            .getCronExpression().equals(entry.getString(6)))) {
                 mAutoReset.setSelection(i);
                 break;
             }
         }
+
+        // close cursor
+        entry.close();
     }
 
     @Override
@@ -237,7 +231,13 @@ public class InterfaceStatsEditor extends Activity {
 
         switch (id) {
         case DIALOG_SET_TRANSMISSION_LIMIT:
-            result = new DataPickerDialog(InterfaceStatsEditor.this, mEntry.getLong(5),
+            Cursor entry = getContentResolver().query(getIntent().getData(), PROJECTION, null,
+                    null, null);
+
+            // get entry and move cursor to the first and only row
+            entry.moveToFirst();
+
+            result = new DataPickerDialog(InterfaceStatsEditor.this, entry.getLong(5),
                     new DataPicker.OnBytesChangedListener() {
                         @Override
                         public void onChanged(DataPicker view, long oldValue, long newValue) {
@@ -248,14 +248,14 @@ public class InterfaceStatsEditor extends Activity {
                                     .put(InterfaceStatsColumns.NOTIFICATION_LEVEL, Integer
                                             .valueOf(0));
                             // store values into the table
-                            getContentResolver().update(
-                                    InterfaceStatsProvider.CONTENT_URI,
-                                    values,
-                                    InterfaceStatsColumns._ID + "="
-                                            + InterfaceStatsEditor.this.mEntry.getLong(0), null);
+                            getContentResolver().update(getIntent().getData(), values, null, null);
                         }
                     }, getString(R.string.editor_transmission_limit_info_text));
             result.setTitle(R.string.dialog_transmission_limit_title);
+            
+            // close cursor
+            entry.close();
+            
             break;
 
         case DIALOG_RESET_COUNTERS:
