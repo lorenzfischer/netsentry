@@ -133,7 +133,6 @@ public class InterfaceStatsList extends ListActivity {
                         .getString(1)));
                 alias.setText(cursor.getString(2));
 
-                lastResetValue.setTextColor(getResources().getColor(R.color.solid_white));
                 lastResetValue.setText(mFormat.format(new Date(cursor.getLong(7))));
 
                 if (bytesLimit > 0) {
