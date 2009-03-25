@@ -1,4 +1,4 @@
-=Help Page for NetSentry=
+=Help Page for !NetSentry=
 
 *The two main screens:*
 
