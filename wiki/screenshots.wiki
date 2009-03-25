@@ -1,5 +1,6 @@
 =Screenshots=
 
+[http://netsentry.googlecode.com/svn/wiki/screenshots/desktop-with-notification.png]
 [http://netsentry.googlecode.com/svn/wiki/screenshots/main-screen.png]
 [http://netsentry.googlecode.com/svn/wiki/screenshots/details-view.png]
 [http://netsentry.googlecode.com/svn/wiki/screenshots/automatic-reset.png]
