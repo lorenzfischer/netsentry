@@ -13,6 +13,11 @@
  * License for the specific language governing permissions and limitations 
  * under the License.
  * 
+ * --------------------------------------------------------------------
+ * This code has been copied from the OpenSymphony Quartz project 
+ * and has been adapted to fit into this project structure's packaging.
+ * --------------------------------------------------------------------
+ * 
  */
 package com.googlecode.netsentry.backend.scheduler;
 
