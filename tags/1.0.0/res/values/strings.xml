@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">NetSentry</string>
+
+	<!-- general -->
+	<string name="menu_item_reset_counters">Reset Counters</string>
+	<string name="menu_item_edit">Edit</string>
+	<string name="menu_item_about">About</string>
+	<string name="menu_item_preferences">Preferences</string>
+	<string name="button_close">Close</string>
+	<string name="dialog_transmission_limit_title">Transmission Limit</string>
+	<string name="infinity_sign">∞</string>
+
+	<!-- interface stats provider -->
+	<string name="provider_interface_alias_wifi">Wi-Fi</string>
+	<string name="provider_interface_alias_3g">2G/3G Network</string>
+	<string name="provider_interface_alias_ethernet">Ethernet</string>
+	<string name="provider_interface_alias_loopback">Loopback</string>
+
+	<!-- notification -->
+	<string name="notification_usage_level_medium_title">Medium usage level reached</string>
+	<string name="notification_usage_level_medium">An interface has reached medium usage</string>
+	<string name="notification_usage_level_high_title">High usage level reached</string>
+	<string name="notification_usage_level_high">An interface has reached high usage</string>
+
+    <!-- interface list -->
+    <string name="list_item_since">since</string>
+
+	<!-- item editor -->
+	<string name="editor_title">Interface Details</string>
+	<string name="editor_category_data">Transmitted Data</string>
+	<string name="editor_category_reset">Automatic Reset</string>
+	<string name="editor_show_in_list">Show In List</string>
+	<string name="editor_label_data_received">Data Received:</string>
+	<string name="editor_label_data_sent">Data Sent:</string>
+	<string name="editor_label_data_total">Data Total:</string>
+	<string name="editor_label_transmission_limit">Transmission Limit:</string>
+	<string name="editor_transmission_limit_info_text">Set to zero for no limit (∞)</string>
+	<string name="editor_button_set_transmission_limit">Set Transmission Limit</string>
+	<string name="editor_button_reset_counters">Reset Counters</string>
+	<string name="editor_dialog_reset_counters">Reset sent and received data for this
+		interface?</string>
+	<string name="editor_auto_reset_description">Select when the counters should be
+		automatically reset:</string>
+	<string name="editor_spinner_auto_reset">Schedule Automatic Reset</string>
+	<string name="editor_cron_not_scheduled">Not scheduled</string>
+	<string name="editor_cron_every_day">Every day</string>
+	<string name="editor_cron_every_month">Every month</string>
+
+	<!-- preferences view -->
+	<string name="preferences_activity_title">Application Properties</string>
+	<string name="preferences_category_usage_thresholds">Usage Thresholds</string>
+	<string name="preferences_category_automatic_update">Automatic Update</string>
+	<string name="preferences_update_interval_title">Update Interval</string>
+	<string name="preferences_update_interval_summary">A lower value means higher accuracy, 
+	but also faster battery	drainage.</string>
+	<string name="preferences_usage_medium_title">Medium Usage Threshold</string>
+	<string name="preferences_usage_medium_summary">Set the threshold for medium usage 
+	notifications.</string>
+	<string name="preferences_usage_high_title">High Usage Threshold</string>
+    <string name="preferences_usage_high_summary">Set the threshold for high usage 
+    notifications.</string>
+
+	<!-- about dialog -->
+	<string name="about_dialog_title">About NetSentry</string>
+	<string name="about_dialog_disclaimer"><i>NetSentry</i> v%1$s</string>
+	<string name="about_dialog_text"><i>NetSentry</i>
+		keeps track of how much data is transferred
+		over each network interface
+		available to your Android system.\n
+
+		\nThe two main screens:\n
+
+		\n<b>The Interface List:</b>
+		\nThis screen lists all active network interfaces.\n
+
+		\n<b>The Interface Details Screen:</b>
+		\nSelecting an entry from the list gives you
+        detailed information about how much data has been transferred over that
+        particular interface.
+		
+		\n
+		\n<b>Miscellaneous information</b>
+        \n
+        \nUpdates:
+        \nWhen you open <i>NetSentry</i> all data counters will be updated. 
+        Automatic updates are scheduled on a regular basis. You can set the update interval using
+        the preferences. 
+        \n
+        \nNotifications:
+        \nNotifications will pop up only during automatic updates. All notifications will be cleared
+        as soon as you open <i>NetSentry</i>.
+	</string>
+
+</resources>
