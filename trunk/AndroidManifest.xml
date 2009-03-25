@@ -90,17 +90,9 @@
 			When this receiver receives an intent the network traffic meter
 			system will be initialized.
 		-->
-		<receiver android:enabled="true" android:name=".backend.Bootstrapper"
-			android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
-
+		<receiver android:enabled="true" android:name=".backend.Bootstrapper" >
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
-				<category android:name="android.intent.category.DEFAULT" />
-			</intent-filter>
-
-			<intent-filter>
-				<!-- init system when newly installed -->
-				<action android:name="android.app.action.MAIN" />
 			</intent-filter>
 		</receiver>
 	</application>
