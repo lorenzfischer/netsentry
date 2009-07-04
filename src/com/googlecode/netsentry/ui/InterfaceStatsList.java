@@ -10,9 +10,11 @@ import android.app.NotificationManager;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,6 +64,9 @@ public class InterfaceStatsList extends ListActivity {
 
     /** The id for the "edit" context menu item. */
     private static final int CONTEXT_MENU_ITEM_EDIT = Menu.FIRST + 1;
+    
+    /** The id for the "delete" context menu item. */
+    private static final int CONTEXT_MENU_ITEM_DELETE = Menu.FIRST + 2;
 
     /** The id for the "about" option menu item. */
     private static final int OPTION_MENU_ITEM_PREFERENCES = Menu.FIRST;
@@ -85,15 +90,21 @@ public class InterfaceStatsList extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        NotificationManager notificationManager;
-
-        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        final NotificationManager notificationManager = //
+        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        final int usageThresholdMedium = Integer.parseInt(prefs.getString(
+                Configuration.PREFERENCE_USAGE_THRESHOLD_MEDIUM,
+                Configuration.DEFAULT_USAGE_THRESHOLD_MEDIUM));
+        final int usageThresholdHigh = Integer.parseInt(prefs.getString(
+                Configuration.PREFERENCE_USAGE_THRESHOLD_HIGH,
+                Configuration.DEFAULT_USAGE_THRESHOLD_HIGH));
 
         // If no data was given in the intent (because we were started
         // as a MAIN activity), then use our default content provider.
         Intent intent = getIntent();
         if (intent.getData() == null) {
-            intent.setData(InterfaceStatsProvider.CONTENT_URI);
+            intent.setData(InterfaceStatsProvider.CONTENT_URI_STATS);
         }
 
         // Inform the list we provide context menus for items
@@ -115,10 +126,7 @@ public class InterfaceStatsList extends ListActivity {
 
             @Override
             public void bindView(View view, Context context, Cursor cursor) {
-                final int usageLevelMedium = Configuration
-                        .getUsageThresholdMedium(InterfaceStatsList.this);
-                final int usageLevelHigh = Configuration
-                        .getUsageThresholdHigh(InterfaceStatsList.this);
+
                 ImageView typeIcon = (ImageView) view
                         .findViewById(R.id.interfaceList_Item_image_interfaceType);
                 TextView alias = (TextView) view
@@ -144,9 +152,9 @@ public class InterfaceStatsList extends ListActivity {
                     usage = Double.valueOf((1.0D * bytesTotal / bytesLimit) * 100).longValue();
 
                     // set color according to usage
-                    if (usage >= usageLevelHigh) {
+                    if (usage >= usageThresholdHigh) {
                         counter.setTextColor(getResources().getColor(R.color.solid_red));
-                    } else if (usage >= usageLevelMedium) {
+                    } else if (usage >= usageThresholdMedium) {
                         counter.setTextColor(getResources().getColor(R.color.solid_yellow));
                     } else {
                         counter.setTextColor(getResources().getColor(R.color.solid_white));
@@ -214,6 +222,8 @@ public class InterfaceStatsList extends ListActivity {
         menu.add(0, InterfaceStatsList.CONTEXT_MENU_ITEM_EDIT, 0, R.string.menu_item_edit);
         menu.add(0, InterfaceStatsList.CONTEXT_MENU_ITEM_RESET_COUNTERS, 1,
                 R.string.menu_item_reset_counters);
+        menu.add(0, InterfaceStatsList.CONTEXT_MENU_ITEM_DELETE, 2,
+                R.string.menu_item_delete);
     }
 
     /**
@@ -243,6 +253,13 @@ public class InterfaceStatsList extends ListActivity {
 
             /* Display the edit view for the selected record. */
             startEditorActivity(interfaceStatsUri);
+            return true;
+        }
+        
+        case InterfaceStatsList.CONTEXT_MENU_ITEM_DELETE: {
+            
+            /* Delete the selected record. */
+            getContentResolver().delete(interfaceStatsUri, null, null);
             return true;
         }
         }

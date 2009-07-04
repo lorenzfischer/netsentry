@@ -25,5 +25,20 @@
 			android:dialogTitle="@string/preferences_usage_high_title"
 			android:defaultValue="90" />
 	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/preferences_category_2g3g">
+		<CheckBoxPreference android:key="discriminator_2g3g_sim_operator"
+			android:title="@string/preferences_discriminator_2g3g_sim_operator"
+			android:summaryOn="@string/preferences_discriminator_2g3g_sim_operator_on"
+			android:summaryOff="@string/preferences_discriminator_2g3g_sim_operator_off"
+			android:defaultValue="True" />
+			
+	   <CheckBoxPreference android:key="discriminator_2g3g_network_operator"
+            android:title="@string/preferences_discriminator_2g3g_network_operator"
+            android:summaryOn="@string/preferences_discriminator_2g3g_network_operator_on"
+            android:summaryOff="@string/preferences_discriminator_2g3g_network_operator_off"
+            android:defaultValue="True" />
 	
+	</PreferenceCategory>
+
 </PreferenceScreen>

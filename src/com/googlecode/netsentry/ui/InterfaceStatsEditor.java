@@ -106,6 +106,8 @@ public class InterfaceStatsEditor extends Activity {
                 new CronExpressionEntry(getString(R.string.editor_cron_not_scheduled), null),
                 new CronExpressionEntry(getString(R.string.editor_cron_every_day),
                         Configuration.CRON_EVERY_DAY),
+                new CronExpressionEntry(getString(R.string.editor_cron_every_week),
+                                Configuration.CRON_EVERY_WEEK),
                 new CronExpressionEntry(getString(R.string.editor_cron_every_month),
                         Configuration.CRON_EVERY_MONTH) };
 
@@ -289,13 +291,13 @@ public class InterfaceStatsEditor extends Activity {
         /**
          * The cron expression. <code>null</code> means not scheduled for reset.
          */
-        private final String cronExpression;
+        private final String mCronExpression;
 
         /**
          * This will be printed inside the spinner through the
          * {@link #toString()} method.
          */
-        private final String label;
+        private final String mLabel;
 
         /**
          * Creates an entry that can be rendered inside the spinner using the
@@ -307,8 +309,8 @@ public class InterfaceStatsEditor extends Activity {
          *            the cron expression the label stands for.
          */
         public CronExpressionEntry(String label, String cronExpression) {
-            this.label = label;
-            this.cronExpression = cronExpression;
+            mLabel = label;
+            mCronExpression = cronExpression;
         }
 
         /**
@@ -318,7 +320,7 @@ public class InterfaceStatsEditor extends Activity {
          * @return the cron expression this entry stands for.
          */
         public String getCronExpression() {
-            return this.cronExpression;
+            return mCronExpression;
         }
 
         /**
@@ -327,7 +329,7 @@ public class InterfaceStatsEditor extends Activity {
          */
         @Override
         public String toString() {
-            return this.label;
+            return mLabel;
         }
     }
 

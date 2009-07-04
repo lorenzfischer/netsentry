@@ -6,6 +6,7 @@ package com.googlecode.netsentry.backend.scheduler;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.googlecode.netsentry.backend.Configuration;
 import com.googlecode.netsentry.backend.scheduler.CronExpression;
 
 import junit.framework.TestCase;
@@ -30,7 +31,7 @@ public class CronExpressionTest extends TestCase {
     }
 
     /**
-     * Tests the cron expression for "every Minute".
+     * Tests the cron expression for "every 10 seconds".
      */
     public void testTenSeconds() throws Exception {
         Calendar calendar = Calendar.getInstance();
@@ -68,7 +69,7 @@ public class CronExpressionTest extends TestCase {
     }
 
     /**
-     * Tests the cron expression for "every Minute".
+     * Tests the cron expression for "every day".
      */
     public void testEveryDay() throws Exception {
         Calendar calendar = Calendar.getInstance();
@@ -87,7 +88,31 @@ public class CronExpressionTest extends TestCase {
     }
 
     /**
-     * Tests the cron expression for "every Minute".
+     * Tests the cron expression for "every week".
+     */
+    public void testEveryWeek() throws Exception {
+        Calendar calendar = Calendar.getInstance();
+        Date startDate;
+        Date endDate;
+        CronExpression exp = new CronExpression(Configuration.CRON_EVERY_WEEK);
+
+        calendar.set(2009, 0, 1, 0, 0, 0); // set to 1st. january 2009
+        calendar.set(Calendar.MILLISECOND, 0);
+        startDate = calendar.getTime();
+        endDate = exp.getNextValidTimeAfter(startDate);
+
+        // set calendar to next sunday (which is january 4th
+        calendar.set(Calendar.DATE, 4);
+        assertEquals(calendar.getTime(), endDate);
+        
+        // no set to 11th, this would be the next week anyways
+        endDate = exp.getNextValidTimeAfter(endDate);
+        calendar.set(Calendar.DATE, 11);
+        assertEquals(calendar.getTime(), endDate);
+    }
+    
+    /**
+     * Tests the cron expression for "every month".
      */
     public void testEveryMonth() throws Exception {
         Calendar calendar = Calendar.getInstance();

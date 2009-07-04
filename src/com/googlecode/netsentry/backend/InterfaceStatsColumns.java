@@ -26,6 +26,20 @@ public final class InterfaceStatsColumns implements BaseColumns {
      * </P>
      */
     public static final String INTERFACE_NAME = "InterfaceName";
+    
+    /**
+     * The discriminator of an entry enables us to maintain multiple entries for any given
+     * interface record in the database. For example for mobile devices (rmnetX) we
+     * can choose to save the phone number and/or the carrier name along with
+     * the interface name. This in turn gives us the possibility to have separate
+     * counter values for different SIM cards plugged into the Android device.
+     * 
+     * This value is <code>null</code> by default.
+     * <P>
+     * Type: TEXT
+     * </P>
+     */
+    public static final String INTERFACE_DISCRIMINATOR = "InterfaceDiscriminator";
 
     /**
      * The alias to show in the interface list.
@@ -44,42 +58,12 @@ public final class InterfaceStatsColumns implements BaseColumns {
     public static final String BYTES_RECEIVED = "BytesReceived";
 
     /**
-     * The value currently stored as the system's value for bytes received. The
-     * "system's" counters are somewhat volatile values, since they might get
-     * reset when an interface is turned off. Too, we cannot rely on having the
-     * current counter value of the system in a static member field of the
-     * updater, since this would increase our counter values whenever that class
-     * gets reloaded (for example when the software is newly installed on the
-     * device).
-     * 
-     * <P>
-     * Type: INTEGER
-     * </P>
-     */
-    public static final String BYTES_RECEIVED_SYSTEM = "BytesReceivedSystem";
-
-    /**
      * The amount of bytes sent through this interface.
      * <P>
      * Type: INTEGER
      * </P>
      */
     public static final String BYTES_SENT = "BytesSent";
-
-    /**
-     * The value currently stored as the system's value for bytes sent. The
-     * "system's" counters are somewhat volatile values, since they might get
-     * reset when an interface is turned off. Too, we cannot rely on having the
-     * current counter value of the system in a static member field of the
-     * updater, since this would increase our counter values whenever that class
-     * gets reloaded (for example when the software is newly installed on the
-     * device).
-     * 
-     * <P>
-     * Type: INTEGER
-     * </P>
-     */
-    public static final String BYTES_SENT_SYSTEM = "BytesSentSystem";
 
     /**
      * The limit up to which free transmission of data is allowed.

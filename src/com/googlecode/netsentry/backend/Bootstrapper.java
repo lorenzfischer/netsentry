@@ -82,7 +82,7 @@ public class Bootstrapper extends BroadcastReceiver {
             registerSharedPreferencesListener(context);
 
             // Start scheduled reset jobs
-            cursor = resolver.query(InterfaceStatsProvider.CONTENT_URI, PROJECTION, null, null,
+            cursor = resolver.query(InterfaceStatsProvider.CONTENT_URI_STATS, PROJECTION, null, null,
                     null);
             if (cursor != null) {
                 cursor.moveToFirst();
@@ -90,7 +90,7 @@ public class Bootstrapper extends BroadcastReceiver {
                     String cronExpression = cursor.getString(2);
                     if (cronExpression != null) {
                         // schedule job (this stops already scheduled jobs)
-                        Uri itemUri = Uri.withAppendedPath(InterfaceStatsProvider.CONTENT_URI, Long
+                        Uri itemUri = Uri.withAppendedPath(InterfaceStatsProvider.CONTENT_URI_STATS, Long
                                 .toString(cursor.getLong(0)));
                         Intent resetterIntent = Resetter.createResetterIntent(itemUri);
                         CronScheduler.scheduleJob(context, resetterIntent, cronExpression);
@@ -114,12 +114,17 @@ public class Bootstrapper extends BroadcastReceiver {
      *            the context to use when loading resources.
      */
     private static void scheduleAutomaticUpdates(Context context) {
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        final AlarmManager alarmManager = (AlarmManager) context
+                .getSystemService(Context.ALARM_SERVICE);
+        final long interval = Long.parseLong(prefs.getString(
+                Configuration.PREFERENCE_UPDATE_INTERVAL, Configuration.DEFAULT_UPDATE_INTERVAL));
 
         // Log.d(TAG, "Starting automatic updates schedule..");
-        alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), Configuration
-                .getUpdateInterval(context), PendingIntent.getBroadcast(context, 0, new Intent(
-                Updater.ACTION_UPDATE_COUNTERS), PendingIntent.FLAG_CANCEL_CURRENT));
+
+        alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), interval,
+                PendingIntent.getBroadcast(context, 0, new Intent(Updater.ACTION_UPDATE_COUNTERS),
+                        PendingIntent.FLAG_CANCEL_CURRENT));
     }
 
     /**
@@ -158,7 +163,7 @@ public class Bootstrapper extends BroadcastReceiver {
 
                         // reset notification levels
                         resolver = context.getContentResolver();
-                        cursor = resolver.query(InterfaceStatsProvider.CONTENT_URI, PROJECTION,
+                        cursor = resolver.query(InterfaceStatsProvider.CONTENT_URI_STATS, PROJECTION,
                                 null, null, null);
 
                         if ((cursor != null) && (cursor.getCount() > 0)) {
@@ -168,7 +173,7 @@ public class Bootstrapper extends BroadcastReceiver {
                                 values = new ContentValues();
                                 values.put(InterfaceStatsColumns.NOTIFICATION_LEVEL, Integer
                                         .valueOf(0));
-                                resolver.update(InterfaceStatsProvider.CONTENT_URI, values,
+                                resolver.update(InterfaceStatsProvider.CONTENT_URI_STATS, values,
                                         InterfaceStatsColumns._ID + "=" + cursor.getLong(0), null);
 
                                 cursor.moveToNext();

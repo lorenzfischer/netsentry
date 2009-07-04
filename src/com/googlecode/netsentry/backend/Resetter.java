@@ -12,7 +12,7 @@ import android.net.Uri;
 /**
  * This class operates on {@link ResetCountersIntent} intents. It will expect an
  * uri that points to an object of the mime type
- * {@link InterfaceStatsProvider#ITEM_CONTENT_TYPE} and will throw an
+ * {@link InterfaceStatsProvider#CONTENT_TYPE_STATS_ITEM} and will throw an
  * {@link IllegalArgumentException} if it is called on anything else.
  * 
  * @author lorenz fischer
@@ -28,9 +28,9 @@ public class Resetter extends BroadcastReceiver {
     /** {@inheritDoc} */
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (!intent.resolveType(context).equals(InterfaceStatsProvider.ITEM_CONTENT_TYPE)) {
+        if (!intent.resolveType(context).equals(InterfaceStatsProvider.CONTENT_TYPE_STATS_ITEM)) {
             throw new IllegalArgumentException("This receiver can only work on "
-                    + InterfaceStatsProvider.ITEM_CONTENT_TYPE + " data items.");
+                    + InterfaceStatsProvider.CONTENT_TYPE_STATS_ITEM + " data items.");
         }
 
         /*
