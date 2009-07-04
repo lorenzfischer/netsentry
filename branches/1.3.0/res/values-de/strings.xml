@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">NetSentry</string>
+
+	<!-- general -->
+	<string name="menu_item_reset_counters">Zähler zurücksetzen</string>
+	<string name="menu_item_edit">Editieren</string>
+	<string name="menu_item_delete">Löschen</string>
+	<string name="menu_item_about">Informationen</string>
+	<string name="menu_item_preferences">Einstellungen</string>
+	<string name="button_close">Schliessen</string>
+	<string name="dialog_transmission_limit_title">Übertragungslimite</string>
+	<string name="infinity_sign">∞</string>
+
+	<!-- interface stats provider -->
+	<string name="provider_interface_alias_wifi">WLan</string>
+	<string name="provider_interface_alias_2g3g">2G/3G Network</string>
+	<string name="provider_interface_alias_ethernet">Ethernet</string>
+	<string name="provider_interface_alias_loopback">Loopback</string>
+
+	<!-- notification -->
+	<string name="notification_usage_level_medium_title">Unterer Schwellwert erreicht</string>
+	<string name="notification_usage_level_medium">%1$d%% der Übertragungslimite erreicht</string>
+	<string name="notification_usage_level_high_title">Oberer Schwellwert erreicht</string>
+	<string name="notification_usage_level_high">%1$d%% der Übertragungslimite erreicht</string>
+
+    <!-- interface list -->
+    <string name="list_item_since">seit</string>
+
+	<!-- item editor -->
+	<string name="editor_title">Gerätedetails</string>
+	<string name="editor_category_data">Übertragenes Datenvolumen</string>
+	<string name="editor_category_reset">Automatisches Zurücksetzen</string>
+	<string name="editor_show_in_list">In Liste darstellen</string>
+	<string name="editor_label_data_received">Empfangen:</string>
+	<string name="editor_label_data_sent">Gesendet:</string>
+	<string name="editor_label_data_total">Total:</string>
+	<string name="editor_label_transmission_limit">Übertragungslimite:</string>
+	<string name="editor_transmission_limit_info_text">Null bedeutet keine Limite (∞)</string>
+	<string name="editor_button_set_transmission_limit">Übertragungslimite</string>
+	<string name="editor_button_reset_counters">Zähler Zurücksetzen</string>
+	<string name="editor_dialog_reset_counters">Zähler für dieses Gerät zurücksetzen?</string>
+	<string name="editor_auto_reset_description">Wählen Sie wann die Zähler für dieses Gerät zurückgesetzt werden sollen:</string>
+	<string name="editor_spinner_auto_reset">Automatisches Zurücksetzen</string>
+	<string name="editor_cron_not_scheduled">Nie</string>
+	<string name="editor_cron_every_day">Jeden Tag</string>
+	<string name="editor_cron_every_week">Jede Woche</string>
+	<string name="editor_cron_every_month">Jeden Monat</string>
+
+	<!-- preferences view -->
+	<string name="preferences_activity_title">Programmeinstellungen</string>
+	<string name="preferences_category_usage_thresholds">Verbrauchsschwellwerte</string>
+	<string name="preferences_category_automatic_update">Automatisches Aktualisieren</string>
+	<string name="preferences_update_interval_title">Aktualisierungsinterval</string>
+	<string name="preferences_update_interval_summary">Kleinere Werte erhöhen die Präzision. Dabei steigt jedoch der Stromverbrauch.</string>
+	<string name="preferences_usage_medium_title">Unterer Schwellwert</string>
+	<string name="preferences_usage_medium_summary">Wählen Sie den unteren Verbrauchsschwellwert</string>
+	<string name="preferences_usage_high_title">Oberer Schwellwert</string>
+    <string name="preferences_usage_high_summary">Wählen Sie den oberen Verbrauchsschwellwert</string>
+    <string name="preferences_category_2g3g">Zähleroptionen für die 2G/3G-Verbindung</string>
+    <string name="preferences_discriminator_2g3g_sim_operator">Pro SIM-Karte</string>
+    <string name="preferences_discriminator_2g3g_sim_operator_on">Pro SIM-Karte wird je ein
+    Zähler geführt.</string>
+    <string name="preferences_discriminator_2g3g_sim_operator_off">Für alle SIM-Karten wird lediglich
+    ein Zähler geführt.</string>
+    <string name="preferences_discriminator_2g3g_network_operator">Pro Netzbetreiber</string>
+    <string name="preferences_discriminator_2g3g_network_operator_on">Pro Netzbetreiber wird je
+    ein separater Zähler geführt (für Roaming).</string>
+    <string name="preferences_discriminator_2g3g_network_operator_off">Für alle Netzbetreiber wird
+    lediglich ein Zähler geführt (für Roaming).</string>
+
+
+	<!-- about dialog -->
+	<string name="about_dialog_title">Über NetSentry</string>
+	<string name="about_dialog_disclaimer"><i>NetSentry</i> v%1$s</string>
+	<string name="about_dialog_text"><i>NetSentry</i>
+		überwacht den Datentransfer der einzelnen
+		Netzwerkkarten, die Ihrem Android System zur
+		Verfügung stehen.\n
+
+		\nDie zwei Hauptansichten:\n
+
+		\n<b>Die Geräteliste:</b>
+		\nDiese Ansicht listet alle aktiven Netzwerkkarten auf.\n
+
+		\n<b>Die Detailansicht:</b>
+		\nWenn Sie eine Netzwerkkarte aus der liste auswählen,
+        werden Ihnen detaillierte Informationen über die übertragenen
+        Datenvolumen angezeigt.
+		
+		\n
+		\n<b>Weitere Informationen</b>
+        \n
+        \nAktualisierung:
+        \nSobald Sie <i>NetSentry</i> öffnen werden die Zähler auf den neuesten Stand gebracht. 
+        Automatische Aktualisierungen werden in regelmässigen Abständen im Hintergrund durchgeführt. 
+        In den Programeinstellungen können sie das Zeitinterval für die automatische Aktualisierung
+        festlegen. 
+        \n
+        \nBenachrichtigungen:
+        \nBenachrichtigungen werden nur während der automatischen Aktualisierung der Zähler
+        generiert. Alle erstellten Benachrichtigungen werden gelöscht, sobald Sie <i>NetSentry</i>
+        öffnen.
+	</string>
+
+</resources>
