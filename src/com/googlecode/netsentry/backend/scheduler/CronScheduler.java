@@ -6,6 +6,8 @@ package com.googlecode.netsentry.backend.scheduler;
 import java.text.ParseException;
 import java.util.Date;
 
+import com.googlecode.netsentry.util.CronExpression;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;

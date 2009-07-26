@@ -19,7 +19,7 @@
  * --------------------------------------------------------------------
  * 
  */
-package com.googlecode.netsentry.backend.scheduler;
+package com.googlecode.netsentry.util;
 
 import java.io.Serializable;
 import java.text.ParseException;

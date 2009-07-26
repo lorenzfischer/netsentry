@@ -6,7 +6,7 @@ package com.googlecode.netsentry.backend.scheduler;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.googlecode.netsentry.backend.scheduler.CronExpression;
+import com.googlecode.netsentry.util.CronExpression;
 
 import junit.framework.TestCase;
 
@@ -16,18 +16,6 @@ import junit.framework.TestCase;
  * @author lorenz fischer
  */
 public class CronExpressionTest extends TestCase {
-
-    /** {@inheritDoc} */
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
 
     /**
      * Tests the cron expression for "every Minute".

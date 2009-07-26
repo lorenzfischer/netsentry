@@ -265,6 +265,7 @@ public class DataPicker extends FrameLayout {
             dest.writeInt(mUnit);
         }
 
+        @SuppressWarnings("unused")
         public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
 
             public SavedState createFromParcel(Parcel in) {
