@@ -8,7 +8,6 @@
 	<string name="menu_item_about">About</string>
 	<string name="menu_item_preferences">Preferences</string>
 	<string name="button_close">Close</string>
-	<string name="dialog_transmission_limit_title">Transmission Limit</string>
 	<string name="infinity_sign">∞</string>
 
 	<!-- interface stats provider -->
@@ -35,17 +34,25 @@
 	<string name="editor_label_data_sent">Data Sent:</string>
 	<string name="editor_label_data_total">Data Total:</string>
 	<string name="editor_label_transmission_limit">Transmission Limit:</string>
+	<string name="editor_transmission_limit_dialog_title">Transmission Limit</string>
 	<string name="editor_transmission_limit_info_text">Set to zero for no limit (∞)</string>
 	<string name="editor_button_set_transmission_limit">Set Transmission Limit</string>
 	<string name="editor_button_reset_counters">Reset Counters</string>
 	<string name="editor_dialog_reset_counters">Reset sent and received data for this
 		interface?</string>
-	<string name="editor_auto_reset_description">Select when the counters should be
-		automatically reset:</string>
-	<string name="editor_spinner_auto_reset">Schedule Automatic Reset</string>
-	<string name="editor_cron_not_scheduled">Not scheduled</string>
-	<string name="editor_cron_every_day">Every day</string>
-	<string name="editor_cron_every_month">Every month</string>
+	<string name="editor_next_auto_reset_scheduled">Next reset is scheduled for: %1$s</string>
+	<string name="editor_next_auto_reset_not_scheduled">Currently no automatic reset 
+	    has been scheduled.</string>	
+	
+	<!-- Cron Expression Picker -->
+	<string name="cron_picker_basic">Choose Interval</string>
+	<string name="cron_picker_not_scheduled">Not scheduled</string>
+	<string name="cron_picker_daily">Every Day</string>
+	<string name="cron_picker_weekly">Every Week</string>
+	<string name="cron_picker_weekly_on_day">On day:</string>
+	<string name="cron_picker_weekly_prompt">Select a day</string>
+	<string name="cron_picker_monthly">Every Month</string>
+	<string name="cron_picker_monthly_on_day">Choose the day of the month:</string>
 
 	<!-- preferences view -->
 	<string name="preferences_activity_title">Application Properties</string>

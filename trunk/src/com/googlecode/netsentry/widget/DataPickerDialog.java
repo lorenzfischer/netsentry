@@ -44,7 +44,7 @@ public class DataPickerDialog extends AlertDialog implements OnClickListener {
 
         if (infoText != null) {
             TextView infoTextView = (TextView) view.findViewById(R.id.data_picker_dialog_info_text);
-            infoTextView.setText(R.string.editor_transmission_limit_info_text);
+            infoTextView.setText(infoText);
         }
     }
 

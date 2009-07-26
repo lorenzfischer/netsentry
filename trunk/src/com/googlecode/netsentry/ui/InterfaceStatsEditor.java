@@ -1,5 +1,10 @@
 package com.googlecode.netsentry.ui;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,24 +15,28 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.googlecode.netsentry.R;
-import com.googlecode.netsentry.backend.Configuration;
 import com.googlecode.netsentry.backend.InterfaceStatsColumns;
 import com.googlecode.netsentry.backend.Resetter;
 import com.googlecode.netsentry.backend.scheduler.CronScheduler;
+import com.googlecode.netsentry.util.CronExpression;
+import com.googlecode.netsentry.util.Misc;
 import com.googlecode.netsentry.util.StringUtilities;
 import com.googlecode.netsentry.widget.DataPicker;
 import com.googlecode.netsentry.widget.DataPickerDialog;
+import com.googlecode.netsentry.widget.cronpicker.CronPicker;
+import com.googlecode.netsentry.widget.listener.OnValueChangedListener;
 
 /**
  * This activity lets the user edit and view one single interface statistics
@@ -55,13 +64,8 @@ public class InterfaceStatsEditor extends Activity {
             InterfaceStatsColumns.LAST_UPDATE // 8
     };
 
-    /**
-     * This array will hold the selection possibilities of the "automatic reset"
-     * spinner.
-     * 
-     * TODO find out how we can load these values once only.
-     */
-    private CronExpressionEntry[] mCronExpressions;
+    /** This formatter is used to render the next scheduled reset date. */
+    private static final DateFormat sDateFormat = new SimpleDateFormat();
 
     // references to view components
     private TextView mInterfaceName;
@@ -73,7 +77,8 @@ public class InterfaceStatsEditor extends Activity {
     private ImageView mInterfaceTypeIcon;
     private Button mSetTransmissionLimitButton;
     private Button mResetCountersButton;
-    private Spinner mAutoReset;
+    private TextView mAutoResetNext;
+    private CronPicker mAutoResetCronPicker;
 
     /** This observer will update the gui as necessary. */
     private ContentObserver mContentObserver = new ContentObserver(new Handler()) {
@@ -99,21 +104,8 @@ public class InterfaceStatsEditor extends Activity {
         mInterfaceTypeIcon = (ImageView) findViewById(R.id.editor_image_interface_type);
         mSetTransmissionLimitButton = (Button) findViewById(R.id.editor_button_set_transmission_limit);
         mResetCountersButton = (Button) findViewById(R.id.editor_button_reset_counters);
-        mAutoReset = (Spinner) findViewById(R.id.editor_spinner_auto_reset);
-
-        // load values for spinner from resource bundle
-        mCronExpressions = new CronExpressionEntry[] {
-                new CronExpressionEntry(getString(R.string.editor_cron_not_scheduled), null),
-                new CronExpressionEntry(getString(R.string.editor_cron_every_day),
-                        Configuration.CRON_EVERY_DAY),
-                new CronExpressionEntry(getString(R.string.editor_cron_every_month),
-                        Configuration.CRON_EVERY_MONTH) };
-
-        // fill in values for the spinner
-        ArrayAdapter<CronExpressionEntry> adapter = new ArrayAdapter<CronExpressionEntry>(this,
-                android.R.layout.simple_spinner_item, mCronExpressions);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mAutoReset.setAdapter(adapter);
+        mAutoResetNext = (TextView) findViewById(R.id.editor_auto_reset_next);
+        mAutoResetCronPicker = (CronPicker) findViewById(R.id.editor_auto_reset_cron_picker);
 
         // make sure we get notified about changes to our record
         getContentResolver()
@@ -135,34 +127,32 @@ public class InterfaceStatsEditor extends Activity {
             }
         });
 
-        mAutoReset.setOnItemSelectedListener(new OnItemSelectedListener() {
+        mAutoResetCronPicker.setOnValueChangedListener(new OnValueChangedListener<String>() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onChanged(String oldValue, String newValue) {
                 Intent resetterIntent;
-                String selectedCronExpression;
                 ContentValues values;
 
-                selectedCronExpression = mCronExpressions[position].getCronExpression();
+                System.out
+                        .println(String
+                                .format(
+                                        "reset cron changed! old=%1$s new=%2$s. updating database and restarting scheduled jobs",
+                                        oldValue, newValue));
+
                 values = new ContentValues();
-                values.put(InterfaceStatsColumns.RESET_CRON_EXPRESSION, selectedCronExpression);
+                values.put(InterfaceStatsColumns.RESET_CRON_EXPRESSION, newValue);
                 // store values into the table
                 getContentResolver().update(getIntent().getData(), values, null, null);
 
                 resetterIntent = Resetter.createResetterIntent(getIntent().getData());
-                if (selectedCronExpression != null) {
+                if (newValue != null) {
                     // schedule job (this stops already scheduled jobs)
-                    CronScheduler.scheduleJob(getApplicationContext(), resetterIntent,
-                            selectedCronExpression);
+                    CronScheduler.scheduleJob(getApplicationContext(), resetterIntent, newValue);
                 } else {
-                    // stop any running timer and start a new one
+                    // stop any running timer
                     CronScheduler.stopScheduledJob(InterfaceStatsEditor.this, resetterIntent);
                 }
 
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // not possible
             }
         });
     }
@@ -180,6 +170,8 @@ public class InterfaceStatsEditor extends Activity {
      * the gui components.
      */
     private void updateGui() {
+        String cronExpression;
+        CronExpression nextResetExpression = null;
         long bytesReceived, bytesSent, bytesTotal, bytesLimit;
         Cursor entry = getContentResolver().query(getIntent().getData(), PROJECTION, null, null,
                 null);
@@ -191,6 +183,7 @@ public class InterfaceStatsEditor extends Activity {
         bytesSent = entry.getLong(4);
         bytesTotal = bytesReceived + bytesSent;
         bytesLimit = entry.getLong(5);
+        cronExpression = entry.getString(6);
 
         mInterfaceName.setText(entry.getString(1));
         mInterfaceAlias.setText(entry.getString(2));
@@ -207,20 +200,24 @@ public class InterfaceStatsEditor extends Activity {
         mInterfaceTypeIcon.setImageResource(InterfaceIcon.getResourceIdForInterface(entry
                 .getString(1)));
 
-        /*
-         * This is not very efficient for big n, but we assume we only have n<10
-         * records here, so this should be good enough.
-         */
-        int cronExpressionCount = mCronExpressions.length;
-        for (int i = 0; i < cronExpressionCount; i++) {
-            if ((mCronExpressions[i].getCronExpression() == null && entry.getString(6) == null)
-                    || (mCronExpressions[i].getCronExpression() != null && mCronExpressions[i]
-                            .getCronExpression().equals(entry.getString(6)))) {
-                mAutoReset.setSelection(i);
-                break;
+        if (cronExpression != null) {
+            try {
+                nextResetExpression = new CronExpression(cronExpression);
+                mAutoResetNext.setText(getString(R.string.editor_next_auto_reset_scheduled,
+                        sDateFormat.format(nextResetExpression.getNextValidTimeAfter(new Date()))));
+            } catch (ParseException e) {
+                // this should not be possible, because we are the only ones
+                // setting the
+                // reset expression.
             }
+        } else {
+            mAutoResetNext.setText(R.string.editor_next_auto_reset_not_scheduled);
         }
 
+        if (!Misc.areEqual(mAutoResetCronPicker.getCronExpression(), cronExpression)) {
+            mAutoResetCronPicker.setCronExpression(cronExpression);
+        }
+        
         // close cursor
         entry.close();
     }
@@ -251,11 +248,11 @@ public class InterfaceStatsEditor extends Activity {
                             getContentResolver().update(getIntent().getData(), values, null, null);
                         }
                     }, getString(R.string.editor_transmission_limit_info_text));
-            result.setTitle(R.string.dialog_transmission_limit_title);
-            
+            result.setTitle(R.string.editor_transmission_limit_dialog_title);
+
             // close cursor
             entry.close();
-            
+
             break;
 
         case DIALOG_RESET_COUNTERS:
@@ -270,65 +267,9 @@ public class InterfaceStatsEditor extends Activity {
                                 }
                             }).setNegativeButton(android.R.string.cancel, null).create();
             break;
+
         }
         return result;
-    }
-
-    /**
-     * This class will be used by the spinner, so the user can select from
-     * predefined cron expressions.
-     * 
-     * It is designed immutable, so we can share instances of it between
-     * threads.
-     * 
-     * This class is thread safe.
-     * 
-     * @author lorenz fischer
-     */
-    private static class CronExpressionEntry {
-        /**
-         * The cron expression. <code>null</code> means not scheduled for reset.
-         */
-        private final String cronExpression;
-
-        /**
-         * This will be printed inside the spinner through the
-         * {@link #toString()} method.
-         */
-        private final String label;
-
-        /**
-         * Creates an entry that can be rendered inside the spinner using the
-         * {@link ArrayAdapter} class.
-         * 
-         * @param label
-         *            the label to render inside the spinner.
-         * @param cronExpression
-         *            the cron expression the label stands for.
-         */
-        public CronExpressionEntry(String label, String cronExpression) {
-            this.label = label;
-            this.cronExpression = cronExpression;
-        }
-
-        /**
-         * You can call this method on an entry in order to get the proper cron
-         * expression that the user has selected.
-         * 
-         * @return the cron expression this entry stands for.
-         */
-        public String getCronExpression() {
-            return this.cronExpression;
-        }
-
-        /**
-         * This method will be called by the {@link ArrayAdapter} in order to
-         * render it inside the spinner.
-         */
-        @Override
-        public String toString() {
-            return this.label;
-        }
     }
 
 }
