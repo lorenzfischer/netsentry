@@ -36,7 +36,7 @@
 	<string name="editor_label_transmission_limit">Transmission Limit:</string>
 	<string name="editor_transmission_limit_dialog_title">Transmission Limit</string>
 	<string name="editor_transmission_limit_info_text">Set to zero for no limit (∞)</string>
-	<string name="editor_button_set_transmission_limit">Set Transmission Limit</string>
+	<string name="editor_button_set_transmission_limit">Set Limit</string>
 	<string name="editor_button_reset_counters">Reset Counters</string>
 	<string name="editor_dialog_reset_counters">Reset sent and received data for this
 		interface?</string>
@@ -49,10 +49,12 @@
 	<string name="cron_picker_not_scheduled">Not scheduled</string>
 	<string name="cron_picker_daily">Every Day</string>
 	<string name="cron_picker_weekly">Every Week</string>
-	<string name="cron_picker_weekly_on_day">On day:</string>
+	<string name="cron_picker_weekly_on_day">Every week on:</string>
 	<string name="cron_picker_weekly_prompt">Select a day</string>
 	<string name="cron_picker_monthly">Every Month</string>
-	<string name="cron_picker_monthly_on_day">Choose the day of the month:</string>
+	<string name="cron_picker_monthly_on_day">Every month on the %1$s day.</string>
+	<string name="cron_picker_monthly_set_day">Set Day</string>
+    <string name="cron_picker_monthly_choose_day">Choose Day of Month</string>
 
 	<!-- preferences view -->
 	<string name="preferences_activity_title">Application Properties</string>
