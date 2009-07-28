@@ -128,12 +128,6 @@ public class InterfaceStatsEditor extends Activity {
                 Intent resetterIntent;
                 ContentValues values;
 
-                System.out
-                        .println(String
-                                .format(
-                                        "reset cron changed! old=%1$s new=%2$s. updating database and restarting scheduled jobs",
-                                        oldValue, newValue));
-
                 values = new ContentValues();
                 values.put(InterfaceStatsColumns.RESET_CRON_EXPRESSION, newValue);
                 // store values into the table
