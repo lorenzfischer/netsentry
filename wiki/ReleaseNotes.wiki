@@ -6,17 +6,14 @@
 This page lists all releases of _NetSentry_ along with the major changes for each release.
 
 = 1.1.0 =
-Download (not yet available)
-<wiki:comment>
-[http://netsentry.googlecode.com/svn/trunk/release/1.1.0/netsentry.apk NetSentry-1.1.0]
-</wiki:comment>
+Download: [http://netsentry.googlecode.com/svn/trunk/release/1.1.0/netsentry.apk NetSentry-1.1.0]
 
 Changes:
   * Weekly Reset ([http://code.google.com/p/netsentry/issues/detail?id=4 Issue 4])
   * Monthly Reset on Nth day of month ([http://code.google.com/p/netsentry/issues/detail?id=5 Issue 5])
 
 = 1.0.0 =
-Download [http://netsentry.googlecode.com/svn/trunk/release/1.0.0/netsentry.apk NetSentry-1.0.0]
+Download: [http://netsentry.googlecode.com/svn/trunk/release/1.0.0/netsentry.apk NetSentry-1.0.0]
 
 Changes:
   * Initial version
