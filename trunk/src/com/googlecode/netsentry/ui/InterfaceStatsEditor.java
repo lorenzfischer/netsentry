@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.googlecode.netsentry.R;
 import com.googlecode.netsentry.backend.InterfaceStatsColumns;
 import com.googlecode.netsentry.backend.Resetter;
+import com.googlecode.netsentry.backend.Updater;
 import com.googlecode.netsentry.backend.scheduler.CronScheduler;
 import com.googlecode.netsentry.util.CronExpression;
 import com.googlecode.netsentry.util.Misc;
@@ -103,7 +104,7 @@ public class InterfaceStatsEditor extends Activity {
         mAutoResetCronPicker = (CronPicker) findViewById(R.id.editor_auto_reset_cron_picker);
 
         // initial update of ui components is done in onResume()
-        
+
         // attach listeners
         mSetTransmissionLimitButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -142,23 +143,27 @@ public class InterfaceStatsEditor extends Activity {
             }
         });
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();
-        
-        // make sure we get notified about changes to our record
+
+        /* Make sure we get notified about changes to our record */
         getContentResolver()
                 .registerContentObserver(getIntent().getData(), false, mContentObserver);
-        updateGui(); // update the gui the first time
+        /*
+         * Issue an update (which in turn will be caught by the content
+         * observer)
+         */
+        sendBroadcast(new Intent(Updater.ACTION_UPDATE_COUNTERS));
     }
-    
+
     @Override
     protected void onPause() {
         super.onPause();
-        
+
         // stop listening to content updates
-        getContentResolver().unregisterContentObserver(mContentObserver);   
+        getContentResolver().unregisterContentObserver(mContentObserver);
     }
 
     /**
@@ -171,7 +176,7 @@ public class InterfaceStatsEditor extends Activity {
         long bytesReceived, bytesSent, bytesTotal, bytesLimit;
         Cursor entry = getContentResolver().query(getIntent().getData(), PROJECTION, null, null,
                 null);
-        
+
         // get entry and move cursor to the first and only row
         entry.moveToFirst();
 
@@ -213,7 +218,7 @@ public class InterfaceStatsEditor extends Activity {
         if (!Misc.areEqual(mAutoResetCronPicker.getCronExpression(), cronExpression)) {
             mAutoResetCronPicker.setCronExpression(cronExpression);
         }
-        
+
         // close cursor
         entry.close();
     }
