@@ -97,7 +97,7 @@
         the preferences. 
         \n
         \nNotifications:
-        \nNotifications will pop up only during automatic updates. All notifications will be cleared
+        \nNotifications will pop up during updates. All notifications will be cleared
         as soon as you open <i>NetSentry</i>.
 	</string>
 
