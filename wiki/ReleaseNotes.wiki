@@ -1,8 +1,4 @@
 #labels Featured
-#An overview over all the releases of _!NetSentry_.
-
-= Release Notes =
-
 This page lists all releases of _!NetSentry_ along with the major changes for each release.
 
 = 1.1.0 =
