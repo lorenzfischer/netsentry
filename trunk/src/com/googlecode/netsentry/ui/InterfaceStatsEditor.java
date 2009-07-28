@@ -102,11 +102,8 @@ public class InterfaceStatsEditor extends Activity {
         mAutoResetNext = (TextView) findViewById(R.id.editor_auto_reset_next);
         mAutoResetCronPicker = (CronPicker) findViewById(R.id.editor_auto_reset_cron_picker);
 
-        // make sure we get notified about changes to our record
-        getContentResolver()
-                .registerContentObserver(getIntent().getData(), false, mContentObserver);
-        updateGui(); // update the gui the first time
-
+        // initial update of ui components is done in onResume()
+        
         // attach listeners
         mSetTransmissionLimitButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -145,13 +142,23 @@ public class InterfaceStatsEditor extends Activity {
             }
         });
     }
-
+    
     @Override
-    protected void onStop() {
-        super.onStop();
-
+    protected void onResume() {
+        super.onResume();
+        
+        // make sure we get notified about changes to our record
+        getContentResolver()
+                .registerContentObserver(getIntent().getData(), false, mContentObserver);
+        updateGui(); // update the gui the first time
+    }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        
         // stop listening to content updates
-        getContentResolver().unregisterContentObserver(mContentObserver);
+        getContentResolver().unregisterContentObserver(mContentObserver);   
     }
 
     /**
@@ -164,7 +171,7 @@ public class InterfaceStatsEditor extends Activity {
         long bytesReceived, bytesSent, bytesTotal, bytesLimit;
         Cursor entry = getContentResolver().query(getIntent().getData(), PROJECTION, null, null,
                 null);
-
+        
         // get entry and move cursor to the first and only row
         entry.moveToFirst();
 
