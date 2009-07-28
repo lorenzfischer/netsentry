@@ -165,18 +165,23 @@ public class InterfaceStatsList extends ListActivity {
 
         setListAdapter(adapter);
 
-        // make sure we have up-to-date data
-        if (!Bootstrapper.initializeSystem(this)) {
-
-            /*
-             * if the initialize method was successful, an update has been
-             * issued already
-             */
-            Updater.updateInterfaceStats(this);
-        }
+        /*
+         * Initialization will only happen once after booting or starting
+         * netsentry for the first time
+         */
+        Bootstrapper.initializeSystem(this);
 
         // clear any notifications that might be up
         notificationManager.cancel(Configuration.NOTIFICATION_ID_USAGE);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Issue an update
+        sendBroadcast(new Intent(Updater.ACTION_UPDATE_COUNTERS));
     }
 
     /** {@inheritDoc} */
