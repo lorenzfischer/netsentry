@@ -112,7 +112,8 @@ public class MonthlyCronDetails extends RelativeLayout implements CronDetails {
                                 }
                             }
                         });
-                dialog.setTitle(R.string.cron_picker_monthly_choose_day);
+                dialog.setTitle(getContext().getString(R.string.cron_picker_monthly_day_of_month_n,
+                        Integer.toString(mDayOfMonth)));
                 dialog.show();
             }
         });
@@ -149,7 +150,7 @@ public class MonthlyCronDetails extends RelativeLayout implements CronDetails {
     public void setOnValueChangedListener(OnValueChangedListener<String> callBack) {
         mOnValueChangedListener = callBack;
     }
-    
+
     /**
      * This dialog lets the user choose the day of the month (a number between 1
      * and 31).
@@ -169,7 +170,7 @@ public class MonthlyCronDetails extends RelativeLayout implements CronDetails {
          *            How the parent is notified that the data amount is set.
          */
         public DayOfMonthChooserDialog(Context context, int day,
-                NumberPicker.OnChangedListener callback) {
+                final NumberPicker.OnChangedListener callback) {
             super(context);
 
             LayoutInflater inflater = (LayoutInflater) context
@@ -182,7 +183,17 @@ public class MonthlyCronDetails extends RelativeLayout implements CronDetails {
             mDayOfMonth.setSpeed(100);
             mDayOfMonth.setRange(1, 31);
             mDayOfMonth.setCurrent(day);
-            mDayOfMonth.setOnChangeListener(callback);
+            mDayOfMonth.setOnChangeListener(new NumberPicker.OnChangedListener() {
+
+                @Override
+                public void onChanged(NumberPicker picker, int oldVal, int newVal) {
+                    setTitle(getContext().getString(R.string.cron_picker_monthly_day_of_month_n,
+                            Integer.toString(mDayOfMonth.getCurrent())));
+                    if (callback != null) {
+                        callback.onChanged(picker, oldVal, newVal);
+                    }
+                }
+            });
         }
 
         /** {@inheritDoc} */
