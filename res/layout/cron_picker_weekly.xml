@@ -3,11 +3,13 @@
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 	android:orientation="horizontal">
 
-	<TextView android:layout_width="wrap_content"
-		android:layout_height="fill_parent" android:layout_marginRight="10px"
-		android:paddingLeft="6dip" android:layout_gravity="bottom"
-		android:text="@string/cron_picker_weekly_on_day" />
+	<TextView android:text="@string/cron_picker_weekly_on_day"
+		android:layout_width="wrap_content" android:layout_height="fill_parent"
+		android:layout_weight="1" android:layout_gravity="bottom"
+		android:layout_marginRight="10px" android:paddingLeft="6dip" />
 	<Spinner android:id="@+id/cron_picker_weekly_days"
-		android:layout_width="fill_parent" android:layout_height="fill_parent"
-		android:layout_gravity="bottom" android:prompt="@string/cron_picker_weekly_prompt" />
+		android:layout_width="wrap_content" android:layout_height="fill_parent"
+		android:layout_weight="0" android:layout_gravity="bottom"
+		android:prompt="@string/cron_picker_weekly_prompt" />
+		
 </LinearLayout>

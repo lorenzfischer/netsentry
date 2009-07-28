@@ -6,14 +6,17 @@ package com.googlecode.netsentry.widget.cronpicker;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.googlecode.netsentry.R;
-import com.googlecode.netsentry.util.Misc;
 import com.googlecode.netsentry.widget.NumberPicker;
 import com.googlecode.netsentry.widget.listener.OnValueChangedListener;
 
@@ -48,13 +51,14 @@ public class MonthlyCronDetails extends RelativeLayout implements CronDetails {
      */
     private OnValueChangedListener<String> mOnValueChangedListener;
 
-    /**
-     * The cron expression currently being represented by this details instance.
-     */
-    private String mCronExpression = String.format(CRON_EXPRESSION_FORMAT, 1);
+    /** This text view will show the currently selected day. */
+    private TextView mOnDayText;
 
-    /** The day of the week will be selectable using this spinner. */
-    private NumberPicker mDayOfMonth;
+    /** Pressing this button lets the user choose the day of the month. */
+    private Button mDayOfMonthButton;
+
+    /** This variable holds the current value for the "day of the month". */
+    private int mDayOfMonth = 1;
 
     /**
      * Constructor.
@@ -82,21 +86,34 @@ public class MonthlyCronDetails extends RelativeLayout implements CronDetails {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         inflater.inflate(R.layout.cron_picker_monthly, this, true);
-        mDayOfMonth = (NumberPicker) findViewById(R.id.cron_picker_monthly_day_of_month);
-
-        mDayOfMonth.setSpeed(100);
-        mDayOfMonth.setRange(1, 31);
-        mDayOfMonth.setOnChangeListener(new NumberPicker.OnChangedListener() {
-
+        mOnDayText = (TextView) findViewById(R.id.cron_picker_monthly_on_day);
+        mOnDayText.setText(getContext().getString(R.string.cron_picker_monthly_on_day,
+                Integer.toString(mDayOfMonth)));
+        mDayOfMonthButton = (Button) findViewById(R.id.cron_picker_monthly_choose_day_button);
+        mDayOfMonthButton.setOnClickListener(new OnClickListener() {
             @Override
-            public void onChanged(NumberPicker picker, int oldVal, int newVal) {
-                String oldCronExpression = mCronExpression;
-                mCronExpression = String.format(CRON_EXPRESSION_FORMAT, newVal);
+            public void onClick(View v) {
+                DayOfMonthChooserDialog dialog;
 
-                if (!Misc.areEqual(mCronExpression, oldCronExpression)
-                        && mOnValueChangedListener != null) {
-                    mOnValueChangedListener.onChanged(oldCronExpression, mCronExpression);
-                }
+                dialog = new DayOfMonthChooserDialog(getContext(), mDayOfMonth,
+                        new NumberPicker.OnChangedListener() {
+
+                            @Override
+                            public void onChanged(NumberPicker picker, int oldVal, int newVal) {
+                                if (newVal != mDayOfMonth) {
+                                    String oldCronExpression = getCronExpression();
+
+                                    mDayOfMonth = newVal;
+                                    mOnDayText.setText(getContext().getString(
+                                            R.string.cron_picker_monthly_on_day,
+                                            Integer.toString(mDayOfMonth)));
+                                    mOnValueChangedListener.onChanged(oldCronExpression,
+                                            getCronExpression());
+                                }
+                            }
+                        });
+                dialog.setTitle(R.string.cron_picker_monthly_choose_day);
+                dialog.show();
             }
         });
 
@@ -105,7 +122,7 @@ public class MonthlyCronDetails extends RelativeLayout implements CronDetails {
     /** {@inheritDoc} */
     @Override
     public String getCronExpression() {
-        return mCronExpression;
+        return String.format(CRON_EXPRESSION_FORMAT, mDayOfMonth);
     }
 
     /** {@inheritDoc} */
@@ -121,8 +138,9 @@ public class MonthlyCronDetails extends RelativeLayout implements CronDetails {
         if (matcher.matches()) {
             int selectedDay = Integer.parseInt(matcher.group(1));
             // prevent callbacks for this update
-            mCronExpression = String.format(CRON_EXPRESSION_FORMAT, selectedDay);
-            mDayOfMonth.setCurrent(selectedDay);
+            mDayOfMonth = selectedDay;
+            mOnDayText.setText(getContext().getString(R.string.cron_picker_monthly_on_day,
+                    Integer.toString(mDayOfMonth)));
         }
     }
 
@@ -130,6 +148,66 @@ public class MonthlyCronDetails extends RelativeLayout implements CronDetails {
     @Override
     public void setOnValueChangedListener(OnValueChangedListener<String> callBack) {
         mOnValueChangedListener = callBack;
+    }
+    
+    /**
+     * This dialog lets the user choose the day of the month (a number between 1
+     * and 31).
+     */
+    public static class DayOfMonthChooserDialog extends AlertDialog implements
+            DialogInterface.OnClickListener {
+
+        /** The day numberpicker instance. */
+        private NumberPicker mDayOfMonth;
+
+        /**
+         * @param context
+         *            The context the dialog is to run in.
+         * @param day
+         *            the day to preselect.
+         * @param callBack
+         *            How the parent is notified that the data amount is set.
+         */
+        public DayOfMonthChooserDialog(Context context, int day,
+                NumberPicker.OnChangedListener callback) {
+            super(context);
+
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.cron_picker_monthly_day_dialog, null);
+
+            setButton(context.getText(R.string.button_close), this);
+            setView(view);
+            mDayOfMonth = (NumberPicker) view.findViewById(R.id.cron_picker_monthly_day_of_month);
+            mDayOfMonth.setSpeed(100);
+            mDayOfMonth.setRange(1, 31);
+            mDayOfMonth.setCurrent(day);
+            mDayOfMonth.setOnChangeListener(callback);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            // store the current value of the date picker
+            mDayOfMonth.clearFocus();
+        }
+
+        /**
+         * @return the day of the month currently being represented by the
+         *         number picker.
+         */
+        public int getDayOfMonth() {
+            return mDayOfMonth.getCurrent();
+        }
+
+        /**
+         * @param day
+         *            the day of month to set.
+         */
+        public void setDayOfMonth(int day) {
+            mDayOfMonth.setCurrent(day);
+        }
+
     }
 
 }

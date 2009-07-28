@@ -3,9 +3,7 @@
  */
 package com.googlecode.netsentry.widget.cronpicker;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.text.DateFormatSymbols;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,12 +47,6 @@ public class WeeklyCronDetails extends LinearLayout implements CronDetails {
     public static final String CRON_EXPRESSION_FORMAT = "0 0 0 ? * %1$s *";
 
     /**
-     * This formatter is used to render the names of the week days inside the
-     * spinner.
-     */
-    private static final DateFormat DAY_FORMATTER = new SimpleDateFormat("EEEE");
-
-    /**
      * This instance will be called whenever the currently set cron expression
      * changes because the user issued the change over the ui
      */
@@ -92,15 +84,14 @@ public class WeeklyCronDetails extends LinearLayout implements CronDetails {
         super(context, attrs);
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        Calendar calendar = Calendar.getInstance();
         String[] days = new String[7];
+        String[] daySymbols = new DateFormatSymbols().getWeekdays();
         ArrayAdapter<String> adapter;
 
         inflater.inflate(R.layout.cron_picker_weekly, this, true);
 
         for (int i = 1; i <= 7; i++) {
-            calendar.set(Calendar.DAY_OF_WEEK, i);
-            days[i - 1] = DAY_FORMATTER.format(calendar.getTime());
+            days[i - 1] = daySymbols[i];
         }
 
         adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, days);
