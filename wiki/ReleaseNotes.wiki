@@ -1,9 +1,9 @@
 #labels Featured
-#An overview over all the releases of _NetSentry_.
+#An overview over all the releases of _!NetSentry_.
 
 = Release Notes =
 
-This page lists all releases of _NetSentry_ along with the major changes for each release.
+This page lists all releases of _!NetSentry_ along with the major changes for each release.
 
 = 1.1.0 =
 Download: [http://netsentry.googlecode.com/svn/trunk/release/1.1.0/netsentry.apk NetSentry-1.1.0]
