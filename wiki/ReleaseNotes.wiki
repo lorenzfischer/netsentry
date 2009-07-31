@@ -7,14 +7,14 @@ Download: [http://netsentry.googlecode.com/svn/trunk/release/1.1.1/netsentry.apk
 _This version is *not* available on the Android Market yet. I just recently built the thing and I will test it on my everyday phone before I publish it. If you'd like to help me with that feel free to download it from here and keep me postet about what you think about it ;-)_
 
 Changes:
-  * Bugfix for Issue ([http://code.google.com/p/netsentry/issues/detail?id=8 Issue 8])
+  * Bugfix for [http://code.google.com/p/netsentry/issues/detail?id=8 issue 8]
 
 = 1.1.0 =
 Download: [http://netsentry.googlecode.com/svn/trunk/release/1.1.0/netsentry.apk NetSentry-1.1.0]
 
 Changes:
-  * Weekly Reset ([http://code.google.com/p/netsentry/issues/detail?id=4 Issue 4])
-  * Monthly Reset on Nth day of month ([http://code.google.com/p/netsentry/issues/detail?id=5 Issue 5])
+  * Weekly reset ([http://code.google.com/p/netsentry/issues/detail?id=4 issue 4])
+  * Monthly reset on n-th day of month ([http://code.google.com/p/netsentry/issues/detail?id=5 issue 5])
 
 = 1.0.0 =
 Download: [http://netsentry.googlecode.com/svn/trunk/release/1.0.0/netsentry.apk NetSentry-1.0.0]
