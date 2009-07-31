@@ -103,7 +103,8 @@ public class InterfaceStatsEditor extends Activity {
         mAutoResetNext = (TextView) findViewById(R.id.editor_auto_reset_next);
         mAutoResetCronPicker = (CronPicker) findViewById(R.id.editor_auto_reset_cron_picker);
 
-        // initial update of ui components is done in onResume()
+        // initial update of ui components
+        updateGui();
 
         // attach listeners
         mSetTransmissionLimitButton.setOnClickListener(new OnClickListener() {
