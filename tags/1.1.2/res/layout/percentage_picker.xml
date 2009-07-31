@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/percentage_picker" android:orientation="horizontal"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:gravity="center">
+
+	<!-- percentage -->
+	<com.googlecode.netsentry.widget.NumberPicker
+		android:id="@+id/percentage_picker_percentage" android:layout_width="80dip"
+		android:layout_height="wrap_content" android:layout_marginLeft="1dip"
+		android:layout_marginRight="1dip" android:focusable="true"
+		android:focusableInTouchMode="true" />
+
+	<TextView android:layout_height="fill_parent"
+		android:layout_width="fill_parent" android:layout_marginLeft="1dip"
+		android:layout_marginRight="1dip" android:text="%" />
+</LinearLayout>
