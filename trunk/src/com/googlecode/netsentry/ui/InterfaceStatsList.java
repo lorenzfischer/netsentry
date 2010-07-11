@@ -13,11 +13,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.format.Formatter;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -31,7 +32,6 @@ import com.googlecode.netsentry.backend.InterfaceStatsColumns;
 import com.googlecode.netsentry.backend.InterfaceStatsProvider;
 import com.googlecode.netsentry.backend.Resetter;
 import com.googlecode.netsentry.backend.Updater;
-import com.googlecode.netsentry.util.StringUtilities;
 
 /**
  * This activity lists all the records of the {@link InterfaceStatsProvider}.
@@ -152,12 +152,12 @@ public class InterfaceStatsList extends ListActivity {
                         counter.setTextColor(getResources().getColor(R.color.solid_white));
                     }
 
-                    counter.setText(StringUtilities.formatDataNumber(bytesTotal) + " / "
-                            + StringUtilities.formatDataNumber(bytesLimit) + " (" + usage + "%)");
+                    counter.setText(Formatter.formatFileSize(context, bytesTotal) + " / "
+                            + Formatter.formatFileSize(context, bytesLimit) + " (" + usage + "%)");
                 } else {
 
                     counter.setTextColor(getResources().getColor(R.color.solid_white));
-                    counter.setText(StringUtilities.formatDataNumber(bytesTotal));
+                    counter.setText(Formatter.formatFileSize(context, bytesTotal));
                 }
 
             }
