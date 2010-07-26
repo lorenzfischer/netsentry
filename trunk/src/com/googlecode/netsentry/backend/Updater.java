@@ -336,8 +336,7 @@ public class Updater extends BroadcastReceiver {
                                 .valueOf(bytesReceivedCurrent));
                         values.put(InterfaceStatsColumns.BYTES_SENT_SYSTEM, Long
                                 .valueOf(bytesSentCurrent));
-                        values.put(InterfaceStatsColumns.LAST_UPDATE, System.currentTimeMillis());
-
+                       
                         // store values into the table
                         resolver.update(InterfaceStatsProvider.CONTENT_URI, values,
                                 InterfaceStatsColumns._ID + "=" + cursor.getLong(0), null);

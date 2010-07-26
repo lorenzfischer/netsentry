@@ -279,6 +279,10 @@ public class InterfaceStatsProvider extends ContentProvider {
     public int update(Uri uri, ContentValues values, String where, String[] whereArgs) {
         SQLiteDatabase db = this.databaseHelper.getWritableDatabase();
         int count;
+        
+        // set last update field
+        values.put(InterfaceStatsColumns.LAST_UPDATE, System.currentTimeMillis());
+        
         switch (InterfaceStatsProvider.uriMatcher.match(uri)) {
         case InterfaceStatsProvider.INTERFACESTATS:
             count = db.update(InterfaceStatsProvider.INTERFACE_STATS_TABLE_NAME, values, where,
