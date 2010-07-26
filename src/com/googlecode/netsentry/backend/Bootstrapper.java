@@ -1,5 +1,7 @@
 package com.googlecode.netsentry.backend;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.app.AlarmManager;
@@ -14,8 +16,10 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.googlecode.netsentry.backend.scheduler.CronScheduler;
+import com.googlecode.netsentry.util.CronExpression;
 
 /**
  * This receiver will be called when the android system has finished booting. It
@@ -24,20 +28,21 @@ import com.googlecode.netsentry.backend.scheduler.CronScheduler;
  * <ul>
  * <li>Scheduling automatic reset of counters.</li>
  * <li>Setting an alarm using the {@link AlarmManager} that updates the
- * interfaces stats on a regular basis (very 30 minutes).</li>
+ * interfaces stats on a regular basis.</li>
  * </ul>
  * 
  * @author lorenz fischer
  */
 public class Bootstrapper extends BroadcastReceiver {
 
-    // /** TAG for logging. */
-    // private static final String TAG = "ns.Bootstrapper";
+    /** TAG for logging. */
+    private static final String TAG = "ns.Bootstrapper";
 
     /** Standard projection for all the columns of an interface stats record. */
     private static final String[] PROJECTION = new String[] { InterfaceStatsColumns._ID, // 0
             InterfaceStatsColumns.INTERFACE_NAME, // 1
-            InterfaceStatsColumns.RESET_CRON_EXPRESSION // 2
+            InterfaceStatsColumns.RESET_CRON_EXPRESSION, // 2
+            InterfaceStatsColumns.LAST_UPDATE // 3
     };
 
     /**
@@ -72,26 +77,45 @@ public class Bootstrapper extends BroadcastReceiver {
             ContentResolver resolver = context.getContentResolver();
             Cursor cursor;
 
-            // Log.d(TAG, "Initializing NetSentry..");
+            Log.d(TAG, "Initializing NetSentry..");
 
-            // Set an alarm to invoke the updater on a regular basis
-            scheduleAutomaticUpdates(context);
-
-            // Make sure we restart the automatic update alarm when the
-            // preference for it changes
-            registerSharedPreferencesListener(context);
-
-            // Start scheduled reset jobs
+            // Automatic reset jobs
             cursor = resolver.query(InterfaceStatsProvider.CONTENT_URI, PROJECTION, null, null,
                     null);
             if (cursor != null) {
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
-                    String cronExpression = cursor.getString(2);
+                    final String cronExpression = cursor.getString(2);
+
                     if (cronExpression != null) {
+                        final String statsId;
+                        final Uri itemUri;
+                        final Date lastUpdate;
+
+                        statsId = Long.toString(cursor.getLong(0));
+                        itemUri = Uri.withAppendedPath(InterfaceStatsProvider.CONTENT_URI, statsId);
+                        lastUpdate = new Date(cursor.getLong(3));
+
+                        /*
+                         * Check if we missed any automatic reset jobs due to
+                         * the phone being turned off.
+                         */
+                        try {
+                            final Date lastResetDueDate;
+                            lastResetDueDate = new CronExpression(cronExpression)
+                                    .getNextValidTimeAfter(lastUpdate);
+                            if (lastResetDueDate.before(new Date())) {
+                                // we missed an automatic reset job, fix this
+                                Log.e(TAG, "Missed an automatic reset job for device with id "
+                                        + statsId + ". Sending reset intent now..");
+                                Resetter.broadcastResetIntent(context, itemUri);
+                            }
+                        } catch (ParseException e) {
+                            Log.e(TAG, "Could not parse cron expression '" + cronExpression
+                                    + "' while checking for missed reset jobs", e);
+                        }
+
                         // schedule job (this stops already scheduled jobs)
-                        Uri itemUri = Uri.withAppendedPath(InterfaceStatsProvider.CONTENT_URI, Long
-                                .toString(cursor.getLong(0)));
                         Intent resetterIntent = Resetter.createResetterIntent(itemUri);
                         CronScheduler.scheduleJob(context, resetterIntent, cronExpression);
                     }
@@ -99,6 +123,13 @@ public class Bootstrapper extends BroadcastReceiver {
                 }
                 cursor.close();
             }
+
+            // Set an alarm to invoke the updater on a regular basis
+            scheduleAutomaticUpdates(context);
+
+            // Make sure we restart the automatic update alarm when the
+            // preference for it changes
+            registerSharedPreferencesListener(context);
 
             return true;
         }

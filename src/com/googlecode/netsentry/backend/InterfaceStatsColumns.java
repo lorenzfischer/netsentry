@@ -124,7 +124,7 @@ public final class InterfaceStatsColumns implements BaseColumns {
     public static final String NOTIFICATION_LEVEL = "NotificationLevel";
 
     /**
-     * The timestamp for when the counters (!) were last updated.
+     * The timestamp for when the record has last been updated.
      * <P>
      * Type: INTEGER (long from System.curentTimeMillis())
      * </P>
