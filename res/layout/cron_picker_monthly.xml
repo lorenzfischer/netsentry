@@ -4,6 +4,7 @@
 	android:orientation="horizontal">
 
 	<TextView android:id="@+id/cron_picker_monthly_on_day"
+	    android:text="@string/cron_picker_monthly_on_day"
 		android:layout_width="wrap_content" android:layout_height="fill_parent"
 		android:layout_marginRight="10dip" android:paddingLeft="6dip"
 		android:layout_weight="1" android:paddingBottom="6dip" />

@@ -52,7 +52,7 @@
 	<string name="cron_picker_weekly_on_day">Every week on:</string>
 	<string name="cron_picker_weekly_prompt">Select a day</string>
 	<string name="cron_picker_monthly">Every Month</string>
-	<string name="cron_picker_monthly_on_day">Every month on the %1$s day.</string>
+	<string name="cron_picker_monthly_on_day">Every month on:</string>
 	<string name="cron_picker_monthly_set_day">Set Day</string>
     <string name="cron_picker_monthly_day_of_month_n">Day of Month: %1$s</string>
 

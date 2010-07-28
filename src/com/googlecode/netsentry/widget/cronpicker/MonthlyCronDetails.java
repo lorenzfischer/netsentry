@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.googlecode.netsentry.R;
+import com.googlecode.netsentry.util.Misc;
 import com.googlecode.netsentry.widget.NumberPicker;
 import com.googlecode.netsentry.widget.listener.OnValueChangedListener;
 
@@ -87,9 +88,8 @@ public class MonthlyCronDetails extends RelativeLayout implements CronDetails {
 
         inflater.inflate(R.layout.cron_picker_monthly, this, true);
         mOnDayText = (TextView) findViewById(R.id.cron_picker_monthly_on_day);
-        mOnDayText.setText(getContext().getString(R.string.cron_picker_monthly_on_day,
-                Integer.toString(mDayOfMonth)));
         mDayOfMonthButton = (Button) findViewById(R.id.cron_picker_monthly_choose_day_button);
+		mDayOfMonthButton.setText(Misc.formatDayOfMonth(mDayOfMonth));
         mDayOfMonthButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,9 +104,7 @@ public class MonthlyCronDetails extends RelativeLayout implements CronDetails {
                                     String oldCronExpression = getCronExpression();
 
                                     mDayOfMonth = newVal;
-                                    mOnDayText.setText(getContext().getString(
-                                            R.string.cron_picker_monthly_on_day,
-                                            Integer.toString(mDayOfMonth)));
+									mDayOfMonthButton.setText(Misc.formatDayOfMonth(mDayOfMonth));
                                     mOnValueChangedListener.onChanged(oldCronExpression,
                                             getCronExpression());
                                 }
@@ -140,8 +138,7 @@ public class MonthlyCronDetails extends RelativeLayout implements CronDetails {
             int selectedDay = Integer.parseInt(matcher.group(1));
             // prevent callbacks for this update
             mDayOfMonth = selectedDay;
-            mOnDayText.setText(getContext().getString(R.string.cron_picker_monthly_on_day,
-                    Integer.toString(mDayOfMonth)));
+			mDayOfMonthButton.setText(Misc.formatDayOfMonth(mDayOfMonth));
         }
     }
 
