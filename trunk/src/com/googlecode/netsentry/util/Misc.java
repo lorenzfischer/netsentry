@@ -31,4 +31,21 @@ public class Misc {
         return false;
     }
 
+	public static String formatDayOfMonth(int dayOfMonth) {
+		int d1 = (int) Math.floor(dayOfMonth / 10);
+		int d0 = dayOfMonth % 10;
+		String suffix = "th";
+		if (d1 != 1) {
+			if (d0 == 1) {
+				suffix = "st";
+			} else if (d0 == 2) {
+				suffix = "nd";
+			} else if (d0 == 3) {
+				suffix = "rd";
+			}
+		}
+		return Integer.toString(dayOfMonth) + suffix;
+
+	}
+
 }
