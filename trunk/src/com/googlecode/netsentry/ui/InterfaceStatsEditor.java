@@ -2,7 +2,6 @@ package com.googlecode.netsentry.ui;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.Activity;
@@ -62,7 +61,10 @@ public class InterfaceStatsEditor extends Activity {
 	};
 
 	/** This formatter is used to render the next scheduled reset date. */
-	private static final DateFormat sDateFormat = new SimpleDateFormat();
+	private static DateFormat sDateFormat;
+
+	/** This formatter is used to render the next scheduled reset time. */
+	private static DateFormat sTimeFormat;
 
 	// references to view components
 	private TextView mInterfaceName;
@@ -89,6 +91,9 @@ public class InterfaceStatsEditor extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		sDateFormat = android.text.format.DateFormat.getDateFormat(this);
+		sTimeFormat = android.text.format.DateFormat.getTimeFormat(this);
 
 		// Set the layout for this activity
 		setContentView(R.layout.interfacestats_editor);
@@ -182,6 +187,7 @@ public class InterfaceStatsEditor extends Activity {
 	private void updateGui() {
 		String cronExpression;
 		CronExpression nextResetExpression = null;
+		Date nextResetDate = null;
 		long bytesReceived, bytesSent, bytesTotal, bytesLimit;
 		Cursor entry = getContentResolver().query(getIntent().getData(),
 				PROJECTION, null, null, null);
@@ -214,10 +220,9 @@ public class InterfaceStatsEditor extends Activity {
 		if (cronExpression != null) {
 			try {
 				nextResetExpression = new CronExpression(cronExpression);
-				mAutoResetNext.setText(getString(
-						R.string.editor_next_auto_reset_scheduled, sDateFormat
-								.format(nextResetExpression
-										.getNextValidTimeAfter(new Date()))));
+				nextResetDate = nextResetExpression.getNextValidTimeAfter(new Date());
+				mAutoResetNext.setText(getString(R.string.editor_next_auto_reset_scheduled,
+						sDateFormat.format(nextResetDate), sTimeFormat.format(nextResetDate)));
 			} catch (ParseException e) {
 				// this should not be possible, because we are the only ones
 				// setting the

@@ -40,7 +40,7 @@
 	<string name="editor_button_reset_counters">Reset Counters</string>
 	<string name="editor_dialog_reset_counters">Reset sent and received data for this
 		interface?</string>
-	<string name="editor_next_auto_reset_scheduled">Next reset is scheduled for: %1$s</string>
+	<string name="editor_next_auto_reset_scheduled">Next reset is scheduled for: %1$s %2$s</string>
 	<string name="editor_next_auto_reset_not_scheduled">Currently no automatic reset 
 	    has been scheduled.</string>	
 	
