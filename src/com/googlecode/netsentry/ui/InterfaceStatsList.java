@@ -1,7 +1,6 @@
 package com.googlecode.netsentry.ui;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.Dialog;
@@ -15,10 +14,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.Formatter;
 import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -111,7 +110,10 @@ public class InterfaceStatsList extends ListActivity {
         ResourceCursorAdapter adapter = new ResourceCursorAdapter(this,
                 R.layout.interfacestats_list_item, mCursor) {
 
-            private DateFormat mFormat = new SimpleDateFormat();
+			private DateFormat mDateFormat = android.text.format.DateFormat
+					.getDateFormat(InterfaceStatsList.this);
+			private DateFormat mTimeFormat = android.text.format.DateFormat
+					.getTimeFormat(InterfaceStatsList.this);
 
             @Override
             public void bindView(View view, Context context, Cursor cursor) {
@@ -128,6 +130,7 @@ public class InterfaceStatsList extends ListActivity {
                         .findViewById(R.id.interfaceList_Item_lastReset_value);
                 long bytesTotal;
                 long bytesLimit;
+				Date sinceDate;
 
                 bytesTotal = cursor.getLong(3) + cursor.getLong(4);
                 bytesLimit = cursor.getLong(5);
@@ -136,7 +139,9 @@ public class InterfaceStatsList extends ListActivity {
                         .getString(1)));
                 alias.setText(cursor.getString(2));
 
-                lastResetValue.setText(mFormat.format(new Date(cursor.getLong(7))));
+				sinceDate = new Date(cursor.getLong(7));
+				lastResetValue.setText(mDateFormat.format(sinceDate) + " "
+						+ mTimeFormat.format(sinceDate));
 
                 if (bytesLimit > 0) {
                     long usage;
