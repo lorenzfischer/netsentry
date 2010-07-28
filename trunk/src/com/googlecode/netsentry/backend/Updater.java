@@ -422,8 +422,8 @@ public class Updater extends BroadcastReceiver {
 
             if (matcher.matches()) {
                 String deviceName = matcher.group(1).trim();
-                int bytesReceived = Integer.parseInt(matcher.group(2));
-                int bytesSent = Integer.parseInt(matcher.group(10));
+                long bytesReceived = Long.parseLong(matcher.group(2));
+                long bytesSent = Long.parseLong(matcher.group(10));
                 InterfaceStats stats = Updater.sInterfacesStatsMap.get(deviceName);
 
                 if (stats == null) {
