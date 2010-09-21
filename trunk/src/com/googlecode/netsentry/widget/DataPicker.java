@@ -116,7 +116,7 @@ public class DataPicker extends FrameLayout {
 
         mAmountPicker = (NumberPicker) findViewById(R.id.data_picker_amount);
         mAmountPicker.setSpeed(100);
-        mAmountPicker.setRange(0, 1023);
+        mAmountPicker.setRange(0, 9999);
         mAmountPicker.setOnChangeListener(mPickerListener);
 
         mUnitPicker = (NumberPicker) findViewById(R.id.data_picker_unit);
