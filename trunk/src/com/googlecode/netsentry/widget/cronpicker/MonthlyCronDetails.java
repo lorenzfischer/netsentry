@@ -17,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.googlecode.netsentry.R;
-import com.googlecode.netsentry.util.Misc;
 import com.googlecode.netsentry.widget.NumberPicker;
 import com.googlecode.netsentry.widget.listener.OnValueChangedListener;
 
@@ -88,8 +87,10 @@ public class MonthlyCronDetails extends RelativeLayout implements CronDetails {
 
         inflater.inflate(R.layout.cron_picker_monthly, this, true);
         mOnDayText = (TextView) findViewById(R.id.cron_picker_monthly_on_day);
+        mOnDayText.setText(getContext().getString(
+                R.string.cron_picker_monthly_on_day,
+                Integer.toString(mDayOfMonth)));
         mDayOfMonthButton = (Button) findViewById(R.id.cron_picker_monthly_choose_day_button);
-		mDayOfMonthButton.setText(Misc.formatDayOfMonth(mDayOfMonth));
         mDayOfMonthButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,18 +100,25 @@ public class MonthlyCronDetails extends RelativeLayout implements CronDetails {
                         new NumberPicker.OnChangedListener() {
 
                             @Override
-                            public void onChanged(NumberPicker picker, int oldVal, int newVal) {
+                            public void onChanged(NumberPicker picker,
+                                    int oldVal, int newVal) {
                                 if (newVal != mDayOfMonth) {
                                     String oldCronExpression = getCronExpression();
 
                                     mDayOfMonth = newVal;
-									mDayOfMonthButton.setText(Misc.formatDayOfMonth(mDayOfMonth));
-                                    mOnValueChangedListener.onChanged(oldCronExpression,
+                                    mOnDayText
+                                            .setText(getContext()
+                                                    .getString(
+                                                            R.string.cron_picker_monthly_on_day,
+                                                            Integer.toString(mDayOfMonth)));
+                                    mOnValueChangedListener.onChanged(
+                                            oldCronExpression,
                                             getCronExpression());
                                 }
                             }
                         });
-                dialog.setTitle(getContext().getString(R.string.cron_picker_monthly_day_of_month_n,
+                dialog.setTitle(getContext().getString(
+                        R.string.cron_picker_monthly_day_of_month_n,
                         Integer.toString(mDayOfMonth)));
                 dialog.show();
             }
@@ -133,18 +141,22 @@ public class MonthlyCronDetails extends RelativeLayout implements CronDetails {
     /** {@inheritDoc} */
     @Override
     public void setCronExpression(String cronExpression) {
-        Matcher matcher = CRON_EXPRESSION_COMPILED_PATTERN.matcher(cronExpression);
+        Matcher matcher = CRON_EXPRESSION_COMPILED_PATTERN
+                .matcher(cronExpression);
         if (matcher.matches()) {
             int selectedDay = Integer.parseInt(matcher.group(1));
             // prevent callbacks for this update
             mDayOfMonth = selectedDay;
-			mDayOfMonthButton.setText(Misc.formatDayOfMonth(mDayOfMonth));
+            mOnDayText.setText(getContext().getString(
+                    R.string.cron_picker_monthly_on_day,
+                    Integer.toString(mDayOfMonth)));
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public void setOnValueChangedListener(OnValueChangedListener<String> callBack) {
+    public void setOnValueChangedListener(
+            OnValueChangedListener<String> callBack) {
         mOnValueChangedListener = callBack;
     }
 
@@ -172,25 +184,32 @@ public class MonthlyCronDetails extends RelativeLayout implements CronDetails {
 
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.cron_picker_monthly_day_dialog, null);
+            View view = inflater.inflate(
+                    R.layout.cron_picker_monthly_day_dialog, null);
 
             setButton(context.getText(R.string.button_close), this);
             setView(view);
-            mDayOfMonth = (NumberPicker) view.findViewById(R.id.cron_picker_monthly_day_of_month);
+            mDayOfMonth = (NumberPicker) view
+                    .findViewById(R.id.cron_picker_monthly_day_of_month);
             mDayOfMonth.setSpeed(100);
             mDayOfMonth.setRange(1, 31);
             mDayOfMonth.setCurrent(day);
-            mDayOfMonth.setOnChangeListener(new NumberPicker.OnChangedListener() {
+            mDayOfMonth
+                    .setOnChangeListener(new NumberPicker.OnChangedListener() {
 
-                @Override
-                public void onChanged(NumberPicker picker, int oldVal, int newVal) {
-                    setTitle(getContext().getString(R.string.cron_picker_monthly_day_of_month_n,
-                            Integer.toString(mDayOfMonth.getCurrent())));
-                    if (callback != null) {
-                        callback.onChanged(picker, oldVal, newVal);
-                    }
-                }
-            });
+                        @Override
+                        public void onChanged(NumberPicker picker, int oldVal,
+                                int newVal) {
+                            setTitle(getContext()
+                                    .getString(
+                                            R.string.cron_picker_monthly_day_of_month_n,
+                                            Integer.toString(mDayOfMonth
+                                                    .getCurrent())));
+                            if (callback != null) {
+                                callback.onChanged(picker, oldVal, newVal);
+                            }
+                        }
+                    });
         }
 
         /** {@inheritDoc} */
