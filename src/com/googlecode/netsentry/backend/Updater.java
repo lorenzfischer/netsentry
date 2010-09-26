@@ -374,6 +374,8 @@ public class Updater extends BroadcastReceiver {
             return context.getString(R.string.provider_interface_alias_3g);
         } else if (interfaceName.startsWith(InterfaceStatsProvider.INTERFACE_NAME_TYPE_ETHERNET)) {
             return context.getString(R.string.provider_interface_alias_ethernet);
+        } else if (interfaceName.startsWith(InterfaceStatsProvider.INTERFACE_NAME_TYPE_WIFI_TETHERING)) {
+            return context.getString(R.string.provider_interface_alias_wifi_tether);
         }
 
         return interfaceName;
