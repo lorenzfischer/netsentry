@@ -27,7 +27,9 @@ public final class InterfaceIcon {
      */
     public static int getResourceIdForInterface(String interfaceName) {
 
-        if (interfaceName.startsWith(InterfaceStatsProvider.INTERFACE_NAME_TYPE_WIFI)) {
+        if (interfaceName.startsWith(InterfaceStatsProvider.INTERFACE_NAME_TYPE_WIFI)
+                || interfaceName
+                        .startsWith(InterfaceStatsProvider.INTERFACE_NAME_TYPE_WIFI_TETHERING)) {
             return R.drawable.interface_type_wifi;
         } else if (interfaceName.startsWith(InterfaceStatsProvider.INTERFACE_NAME_TYPE_3G)) {
             return R.drawable.interface_type_3g;

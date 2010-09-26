@@ -66,6 +66,9 @@ public class InterfaceStatsProvider extends ContentProvider {
 
     /** The matching group for ethernet type interface names. */
     public final static String INTERFACE_NAME_TYPE_ETHERNET = "eth";
+    
+    /** The matching group for wifi tethering type interface names. */
+    public final static String INTERFACE_NAME_TYPE_WIFI_TETHERING = "wl0.1";
 
     /** The name of the database file. */
     private static final String DATABASE_NAME = "netsentry.db";

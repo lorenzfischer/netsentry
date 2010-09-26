@@ -14,6 +14,7 @@
 	<string name="provider_interface_alias_wifi">Wi-Fi</string>
 	<string name="provider_interface_alias_3g">2G/3G Network</string>
 	<string name="provider_interface_alias_ethernet">Ethernet</string>
+	<string name="provider_interface_alias_wifi_tether">Wi-Fi Tethering</string>
 	<string name="provider_interface_alias_loopback">Loopback</string>
 
 	<!-- notification -->
