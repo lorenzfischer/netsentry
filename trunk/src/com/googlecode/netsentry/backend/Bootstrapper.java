@@ -20,6 +20,7 @@ import android.util.Log;
 
 import com.googlecode.netsentry.backend.scheduler.CronScheduler;
 import com.googlecode.netsentry.util.CronExpression;
+import com.googlecode.netsentry.util.LogUtils;
 
 /**
  * This receiver will be called when the android system has finished booting. It
@@ -77,7 +78,9 @@ public class Bootstrapper extends BroadcastReceiver {
             ContentResolver resolver = context.getContentResolver();
             Cursor cursor;
 
-            Log.d(TAG, "Initializing NetSentry..");
+            if (LogUtils.DEBUG) {
+                Log.d(TAG, "Initializing NetSentry..");
+            }
 
             // Automatic reset jobs
             cursor = resolver.query(InterfaceStatsProvider.CONTENT_URI, PROJECTION, null, null,
@@ -106,13 +109,17 @@ public class Bootstrapper extends BroadcastReceiver {
                                     .getNextValidTimeAfter(lastUpdate);
                             if (lastResetDueDate.before(new Date())) {
                                 // we missed an automatic reset job, fix this
-                                Log.e(TAG, "Missed an automatic reset job for device with id "
-                                        + statsId + ". Sending reset intent now..");
+                                if (LogUtils.DEBUG) {
+                                    Log.d(TAG, "Missed an automatic reset job for device with id "
+                                            + statsId + ". Sending reset intent now..");
+                                }
                                 Resetter.broadcastResetIntent(context, itemUri);
                             }
                         } catch (ParseException e) {
-                            Log.e(TAG, "Could not parse cron expression '" + cronExpression
-                                    + "' while checking for missed reset jobs", e);
+                            if (LogUtils.ERROR) {
+                                Log.e(TAG, "Could not parse cron expression '" + cronExpression
+                                        + "' while checking for missed reset jobs", e);
+                            }
                         }
 
                         // schedule job (this stops already scheduled jobs)
@@ -147,7 +154,9 @@ public class Bootstrapper extends BroadcastReceiver {
     private static void scheduleAutomaticUpdates(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        // Log.d(TAG, "Starting automatic updates schedule..");
+        if (LogUtils.DEBUG) {
+            Log.d(TAG, "Starting automatic updates schedule..");
+        }
         alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), Configuration
                 .getUpdateInterval(context), PendingIntent.getBroadcast(context, 0, new Intent(
                 Updater.ACTION_UPDATE_COUNTERS), PendingIntent.FLAG_CANCEL_CURRENT));
