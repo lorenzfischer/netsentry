@@ -174,10 +174,7 @@ public class DataPicker extends FrameLayout {
      */
     public void setData(int amount, int unit) {
         mAmountPicker.setCurrent(amount);
-    }
-
-    public int getAmount() {
-        return mAmountPicker.getCurrent();
+        mUnitPicker.setCurrent(unit);
     }
 
     /**
@@ -193,7 +190,7 @@ public class DataPicker extends FrameLayout {
         long amount = bytes;
         int unit = 0;
 
-        while (amount > 1024) {
+        while ((amount % 1024) == 0 && amount > 0) {
             unit++;
             amount >>= 10;
         }
