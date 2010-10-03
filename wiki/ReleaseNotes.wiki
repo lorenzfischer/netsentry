@@ -9,7 +9,8 @@ Download: [http://netsentry.googlecode.com/svn/trunk/release/1.2.0/netsentry.apk
 
 Changes: Have a look at the [http://code.google.com/p/netsentry/issues/list?can=1&q=Milestone=1.2.0 issues that were fixed] in this release. 
 </td>
-<td style="padding-top: 20px;">http://qrcode.kaywa.com/img.php?s=5&d=http%3A%2F%2Fbit.ly%2FcubioV&dummy=dummy.png</td>
+<td width="20"></td>
+<td>http://qrcode.kaywa.com/img.php?s=5&d=http%3A%2F%2Fbit.ly%2FcubioV&dummy=dummy.png</td>
 </tr>
 </table>
 
