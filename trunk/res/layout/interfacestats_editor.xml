@@ -30,8 +30,8 @@
                 android:paddingRight="6dip" 
                 android:paddingLeft="6dip" />
             <ImageView android:id="@+id/editor_image_interface_type"
-                android:layout_width="31px"
-                android:layout_height="37px"
+                android:layout_width="31dip"
+                android:layout_height="37dip"
                 android:layout_alignParentRight="true"
                 android:paddingTop="6dip" 
                 android:paddingBottom="6dip" 
