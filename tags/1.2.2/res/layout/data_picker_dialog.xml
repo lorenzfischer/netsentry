@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:padding="5dip">
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:orientation="vertical">
+		<com.googlecode.netsentry.widget.DataPicker
+			android:id="@+id/data_picker_dialog_picker" android:layout_width="fill_parent"
+			android:layout_height="fill_parent" android:gravity="center" />
+		<TextView android:id="@+id/data_picker_dialog_info_text"
+			android:layout_height="fill_parent" android:layout_width="fill_parent"
+			android:padding="6dip" android:gravity="center" />
+	</LinearLayout>
+</FrameLayout>

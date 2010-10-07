@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory android:title="@string/preferences_category_automatic_update">
+		<ListPreference android:key="update_interval"
+			android:title="@string/preferences_update_interval_title"
+			android:summary="@string/preferences_update_interval_summary"
+			android:entries="@array/update_polling_intervals"
+			android:entryValues="@array/update_polling_intervals_values"
+			android:dialogTitle="@string/preferences_update_interval_title"
+			android:defaultValue="1800000" />
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/preferences_category_usage_thresholds">
+		<ListPreference android:key="usage_threshold_medium"
+			android:title="@string/preferences_usage_medium_title"
+			android:summary="@string/preferences_usage_medium_summary"
+			android:entries="@array/percentages" android:entryValues="@array/percentages_values"
+			android:dialogTitle="@string/preferences_usage_medium_title"
+			android:defaultValue="75" />
+
+		<ListPreference android:key="usage_threshold_high"
+			android:title="@string/preferences_usage_high_title" android:summary="@string/preferences_usage_high_summary"
+			android:entries="@array/percentages" android:entryValues="@array/percentages_values"
+			android:dialogTitle="@string/preferences_usage_high_title"
+			android:defaultValue="90" />
+	</PreferenceCategory>
+	
+</PreferenceScreen>
