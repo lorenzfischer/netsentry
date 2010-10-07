@@ -1,6 +1,19 @@
 #labels Featured
 This page lists all releases of _!NetSentry_ along with the major changes for each release.
 
+= 1.2.2 =
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td valign="top">
+Download: [http://netsentry.googlecode.com/svn/trunk/release/1.2.2/netsentry.apk NetSentry-1.2.2]
+
+Changes: Have a look at the [http://code.google.com/p/netsentry/issues/list?can=1&q=Milestone=1.2.2 issues that were fixed] in this release. 
+</td>
+<td width="20"></td>
+<td>http://chart.apis.google.com/chart?chs=150x150&cht=qr&chl=http://netsentry.googlecode.com/svn/trunk/release/1.2.2/netsentry.apk&chld=L|1&choe=UTF-8&dummy=dummy.png</td>
+</tr>
+</table>
+
 = 1.2.1 =
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
