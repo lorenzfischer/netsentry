@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.googlecode.netsentry" android:versionName="1.2.2" android:versionCode="7">
+	
 	<uses-sdk android:minSdkVersion="3" android:targetSdkVersion="4" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-feature />
+	<supports-screens android:smallScreens="true" 
+                    android:normalScreens="true" 
+                    android:largeScreens="true" 
+                    android:anyDensity="true" />
+	
+	<!-- we can live with a 5-way control -->
+	<uses-configuration android:reqFiveWayNav="true"
+	                    android:reqTouchScreen="notouch"
+	                    android:reqHardKeyboard="false" />
+	                    
+  <!-- .. but we're also happy with finger -->	                     
+  <uses-configuration android:reqFiveWayNav="false"
+                      android:reqTouchScreen="finger" 
+	                    android:reqHardKeyboard="false" />
+	                    
+	<!-- .. or stylus control -->                      
+  <uses-configuration android:reqFiveWayNav="false"
+                      android:reqTouchScreen="stylus" 
+                      android:reqHardKeyboard="false" />
 		
 	<application android:icon="@drawable/icon" android:label="@string/app_name">
 
