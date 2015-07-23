@@ -1,0 +1,65 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* default.properties
+* design/
+* design/android.gpl
+* design/feature-graphic.png
+* design/icon_512x512.jpg
+* design/icon_512x512.png
+* design/sentry-box.svg
+* release/
+* release/1.0.0/
+* release/1.0.0/netsentry.apk
+* release/1.1.0/
+* release/1.1.0/netsentry.apk
+* release/1.1.1/
+* release/1.1.1/netsentry.apk
+* release/1.1.2/
+* release/1.1.2/netsentry.apk
+* release/1.2.0/
+* release/1.2.0/netsentry.apk
+* release/1.2.1/
+* release/1.2.1/netsentry.apk
+* release/1.2.2/
+* release/1.2.2/netsentry.apk
+* tests/
+* tests/src/
+* tests/src/com/
+* tests/src/com/googlecode/
+* tests/src/com/googlecode/netsentry/
+* tests/src/com/googlecode/netsentry/backend/
+* tests/src/com/googlecode/netsentry/backend/scheduler/
+* tests/src/com/googlecode/netsentry/backend/scheduler/CronExpressionTest.java
+* tests/src/com/googlecode/netsentry/util/
+* tests/src/com/googlecode/netsentry/util/MiscTest.java
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => app/src/main/AndroidManifest.xml
+* res/ => app/src/main/res/
+* src/ => app/src/main/java/
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)
