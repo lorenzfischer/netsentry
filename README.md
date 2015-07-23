@@ -1,7 +1,7 @@
 # NetSentry
 NetSentry keeps track of how much data is transferred over each network interface available to your Android system.
 
-The current release is NetSentry-1.2.1. You can also find this link on the ReleaseNotes page.
+The current release is [NetSentry-1.2.1](https://github.com/lorenzfischer/netsentry/blob/master/release/1.2.2/netsentry.apk). You can also find this link on the [release notes](https://github.com/lorenzfischer/netsentry/blob/master/doc/releasenotes.md) page.
 Main features include:
 Tracks the data transmitted over all active network interfaces.
 Notifies you about medium and high network usage through the Android notification facility.
